@@ -5,6 +5,7 @@ const generateOtp = require("../utils/generateOtp");
 const sendMail = require("../utils/sendMail");
 const jwt= require("jsonwebtoken");
 const { generateAccessToken, generateRefreshToken } = require("../utils/generatetoken");
+const imagekit = require("../config/imagekit");
 const register= async (req,res,next) => {
      try {
          const errors= validationResult(req);
@@ -347,6 +348,43 @@ const me= async (req,res,next) => {
         next(error)
     }
 }
+
+const uploadProfileimage= async (req,res,next) => {
+      try {
+       
+        if(!req.file){
+            return res.status(400).json({
+                "success":false,
+                message:"Profile image is required"
+            })
+        }
+           const oldFileId= req.user.profileImageFileId;
+        const uploadedImage= await imagekit.upload({
+            file:req.file.buffer,
+            fileName:`${req.user._id}-${Date.now()}`
+        });
+              req.user.profileImage= uploadedImage.url
+            req.user.profileImageFileId= uploadedImage.fileId
+            await req.user.save();
+           
+            if (oldFileId) {
+                  try {
+                    await imagekit.deleteFile(oldFileId);
+                   } catch (error) {
+                    console.error("Failed to delete old image:", error);
+                }
+             }
+       
+          return res.status(200).json({
+              success: true,
+           message: "Profile image uploaded successfully",
+           profileImage: req.user.profileImage
+          });
+      } catch (error) {
+        next(error)
+      }
+}
+
 
 
 module.exports={
