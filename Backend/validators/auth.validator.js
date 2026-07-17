@@ -37,7 +37,20 @@ const resetPasswordValidator=[
 ];
 
 const verifyOtpValidator=[
+     body("email")
+     .notEmpty()
+     .withMessage("email is required")
+     .isEmail()
+     .withMessage("email is invalid")
+     .trim()
+     .normalizeEmail(),
 
+     body("otp")
+     .notEmpty()
+     .withMessage("opt is required")
+      .isLength({min:6,max:6})
+      .isNumeric()
+      .withMessage("it should be number not alphabetic")
 ];
 
 module.exports = {

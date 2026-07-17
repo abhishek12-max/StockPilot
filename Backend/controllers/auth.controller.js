@@ -56,7 +56,54 @@ const register= async (req,res,next) => {
 
 const verifyOtp= async (req,res,next) => {
      try {
+         const error= validationResult(req);
+         if(!error.isEmpty()){
+             return res.status(400).json({
+                "success":false,
+                error:error.array()
+             })
+         }
+
+         const {email,otp}= req.body;
         
+         const existingUser= await userModel.findOne({
+            email
+         });
+         if(!existingUser){
+            return  res.status(404).json({
+                "success":false,
+                message:" User not found"
+            })
+         }
+         if(existingUser.isVerified){
+             return res.status(400).json({
+                "success":false,
+                message:"email is already verified"
+             })
+         }
+
+         if(existingUser.otp!==otp){
+             return res.status(400).json({
+                "success":false,
+                message:"invalid otp"
+             })
+         }
+         if(new Date()>existingUser.otpExpiry){
+              return res.status(400).json({
+                "success":false,
+                message:"OTP expired"
+              })
+         }
+
+         existingUser.isVerified= true
+         existingUser.otp=null
+         existingUser.otpExpiry=null
+         await existingUser.save();
+         res.status(200).json({
+            "success":true,
+            message:"Email verified sucessfully"
+         })
+
      } catch (error) {
         next(error)
      }
