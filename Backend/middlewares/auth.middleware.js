@@ -1,0 +1,30 @@
+const UserModel=require("../models/user.model");
+const jwt= require("jsonwebtoken");
+
+const authmiddleware= async (req,res,next) => {
+    try {
+         const token= req.cookies.accessToken;
+         if(!token){
+            return res.status(401).json({
+                "success":false,
+                message:"unauthorized"
+            });
+         }
+
+         const decoded= jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
+
+         const user= await UserModel.findById(decoded.id).select("-password");
+           if (!user) {
+        return res.status(401).json({
+        message: "User not found"
+         });
+        }
+             req.user= user;
+         next();
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports= authmiddleware;
