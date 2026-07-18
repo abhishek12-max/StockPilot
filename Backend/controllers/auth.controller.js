@@ -287,6 +287,7 @@ const resendOtp= async (req,res,next) => {
 
 const refreshToken= async (req,res,next) => {
      try {
+        
          const token= req.cookies.refreshToken;
       if(!token){
         return res.status(401).json({
@@ -374,7 +375,6 @@ const uploadProfileimage= async (req,res,next) => {
                     console.error("Failed to delete old image:", error);
                 }
              }
-       
           return res.status(200).json({
               success: true,
            message: "Profile image uploaded successfully",
@@ -386,6 +386,30 @@ const uploadProfileimage= async (req,res,next) => {
 }
 
 
+const updateProfile= async (req,res,next) => {
+    try {
+        const errors= validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({
+                "success":false,
+                errors:errors.array()
+            })
+        }
+        const {fullname}= req.body
+        req.user.fullname= fullname
+        await req.user.save();
+        res.status(200).json({
+            "success":true,
+            user:{
+                fullname:req.user.fullname,
+                
+            },
+            message: "Profile updated successfully"
+        })
+    } catch (error) {
+        next(error)
+    }
+}
 
 module.exports={
     register,
@@ -396,5 +420,6 @@ module.exports={
     resendOtp,
     refreshToken,
     me,
-    logout
+    logout,
+    updateProfile
 }

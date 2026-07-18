@@ -2,9 +2,9 @@ const { body } = require("express-validator");
 
 const registerValidator = [
      body("fullname")
+     .trim()
      .notEmpty()
      .withMessage("full name is required")
-     .trim()
      .isLength({min:3,max:30})
      .withMessage("fullname must be  between 3 and 30 characters "),
 
@@ -109,12 +109,20 @@ const resendOtpValidator = [
     .isEmail()
     .withMessage("Invalid email.")
 ];
-
+const updateProfileValidator=[
+    body("fullname")
+    .trim()
+    .notEmpty()
+    .withMessage("Full name is required")
+    .isLength({ min: 3, max: 30 })
+    .withMessage("Full name must be between 3 and 30 characters")
+]
 module.exports = {
     registerValidator,
     loginValidator,
     forgetPasswordValidator,
     resetPasswordValidator,
     verifyOtpValidator,
-    resendOtpValidator
+    resendOtpValidator,
+    updateProfileValidator
 };
