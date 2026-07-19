@@ -295,7 +295,7 @@ const refreshToken= async (req,res,next) => {
         })
       }
       const decoded= jwt.verify(token,process.env.REFRESH_TOKEN_SECRET);
-      const user= await UserModel.findById(decoded.id);
+      const user= await userModel.findById(decoded.id);
         if(!user){
             return res.status(400).json({
                 message:"not found"

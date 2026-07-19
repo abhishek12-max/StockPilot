@@ -117,6 +117,24 @@ const updateProfileValidator=[
     .isLength({ min: 3, max: 30 })
     .withMessage("Full name must be between 3 and 30 characters")
 ]
+
+const updateemployeeValidator=[
+     body("fullname")
+     .trim()
+     .optional()
+     .isLength({min:3,max:30})
+     .withMessage("fullname must be between  3 to 30 characters"),
+
+     body("email")
+     .optional()
+     .isEmail()
+     .withMessage("invalid email"),
+
+     body("role")
+     .optional()
+     .isIn(["admin", "user"])
+    .withMessage("Role must be admin or user")
+]
 module.exports = {
     registerValidator,
     loginValidator,
@@ -124,5 +142,6 @@ module.exports = {
     resetPasswordValidator,
     verifyOtpValidator,
     resendOtpValidator,
-    updateProfileValidator
+    updateProfileValidator,
+    updateemployeeValidator
 };
