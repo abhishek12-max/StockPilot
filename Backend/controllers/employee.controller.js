@@ -23,13 +23,7 @@ const FindemployeeById= async (req,res,next) => {
 
 const updateEmployeeById= async (req,res,next) => {
     try {
-        const errors= validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({
-                "success":false,
-                errors:errors.array()
-            })
-        }
+        
          const{id}=req.params
         const{fullname ,email,role}=req.body
         const employee= await userModel.findById(id);

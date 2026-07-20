@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose= require("mongoose");
 
 const holdingSchema = new mongoose.Schema(
   {
@@ -41,4 +41,4 @@ holdingSchema.index(
 
 const Holding = mongoose.model("Holding", holdingSchema);
 
-export default Holding;
+module.exports= Holding;

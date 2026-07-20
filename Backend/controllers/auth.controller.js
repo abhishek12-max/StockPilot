@@ -8,12 +8,7 @@ const { generateAccessToken, generateRefreshToken } = require("../utils/generate
 const imagekit = require("../config/imagekit");
 const register= async (req,res,next) => {
      try {
-         const errors= validationResult(req);
-         if(!errors.isEmpty()){
-            return res.status(400).json({
-                errors:errors.array()
-            })
-         }
+         
         const{fullname,email,password}= req.body
          const existinguser= await  userModel.findOne({
              email
@@ -59,14 +54,7 @@ const register= async (req,res,next) => {
 
 const verifyOtp= async (req,res,next) => {
      try {
-         const error= validationResult(req);
-         if(!error.isEmpty()){
-             return res.status(400).json({
-                "success":false,
-                error:error.array()
-             })
-         }
-
+         
          const {email,otp}= req.body;
         
          const existingUser= await userModel.findOne({
@@ -113,13 +101,7 @@ const verifyOtp= async (req,res,next) => {
 }
 const login= async (req,res,next) => {
     try {
-        const errors= validationResult(req);
-         if(!errors.isEmpty()){
-            return res.status(400).json({
-                "success":false,
-                errors:errors.array()
-            })
-         }
+       
        const {email,password}= req.body;
        const User= await userModel.findOne({
         email
@@ -169,13 +151,7 @@ const login= async (req,res,next) => {
 
 const forgetPassword= async (req,res,next) => {
       try {
-        const errors= validationResult(req);
-         if(!errors.isEmpty()){
-            return res.status(400).json({
-                "success":false,
-                errors:errors.array()
-            })
-         }
+       
         const {email}= req.body
          const existingUser= await UserModel.findOne({
             email
@@ -203,13 +179,7 @@ const forgetPassword= async (req,res,next) => {
 
 const resetPassword= async (req,res,next) => {
      try {
-        const errors= validationResult(req);
-         if(!errors.isEmpty()){
-            return res.status(400).json({
-                "success":false,
-                errors:errors.array()
-            })
-         }
+        
          const{email,otp,newpassword}=req.body
         const existingUser=await UserModel.findOne({
             email
@@ -247,13 +217,7 @@ const resetPassword= async (req,res,next) => {
 
 const resendOtp= async (req,res,next) => {
       try {
-        const errors= validationResult(req);
-         if(!errors.isEmpty()){
-            return res.status(400).json({
-                "success":false,
-                errors:errors.array()
-            })
-         }
+       
          const {email}= req.body;
          const user= await userModel.findOne({
             email
@@ -388,13 +352,7 @@ const uploadProfileimage= async (req,res,next) => {
 
 const updateProfile= async (req,res,next) => {
     try {
-        const errors= validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({
-                "success":false,
-                errors:errors.array()
-            })
-        }
+      
         const {fullname}= req.body
         req.user.fullname= fullname
         await req.user.save();

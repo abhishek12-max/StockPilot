@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose= require("mongoose");
 
 const stockSchema = new mongoose.Schema(
   {
@@ -54,4 +54,4 @@ const stockSchema = new mongoose.Schema(
 
 const Stock = mongoose.model("Stock", stockSchema);
 
-export default Stock;
+module.exports=Stock

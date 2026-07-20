@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+const mongoose= require("mongoose");
 const watchlistSchema = new mongoose.Schema(
   {
     user: {
@@ -26,4 +25,4 @@ const watchlistSchema = new mongoose.Schema(
 
 const Watchlist = mongoose.model("Watchlist", watchlistSchema);
 
-export default Watchlist;
+module.exports= Watchlist

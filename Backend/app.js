@@ -1,6 +1,7 @@
 const express = require("express");
 const authRoutes = require("./routes/auth.routes");
 const employeeRoutes= require("./routes/employee.routes");
+const watchlistRoutes=require("./routes/watchlist.routes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middlewares/error.middleware");
@@ -16,6 +17,7 @@ app.use(
 );
 app.use("/api/auth", authRoutes);
 app.use("/api/employee",employeeRoutes);
+app.use("/api/wishlist",watchlistRoutes);
 app.use(errorMiddleware);
 module.exports = app;
 
