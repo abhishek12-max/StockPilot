@@ -5,21 +5,26 @@ const orderSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-      index: true,
+      required: true
+    
     },
 
     stock: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Stock",
-      required: true,
-      index: true,
+      required: true
+      
+    },
+    side:{
+        type:String,
+       enum:["BUY","SELL"],
+       required:true
     },
 
     orderType: {
       type: String,
-      enum: ["BUY", "SELL"],
-      required: true,
+      enum: ["MARKET", "LIMIT"],
+      required: true
     },
 
     quantity: {
@@ -38,7 +43,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["PENDING", "COMPLETED", "CANCELLED"],
       default: "PENDING",
-      index: true,
+     
     },
   },
   {
