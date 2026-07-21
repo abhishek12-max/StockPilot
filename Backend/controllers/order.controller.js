@@ -82,3 +82,26 @@ const placeOrder= async (req,res,next) => {
         next(error)
     }
 }
+
+const recentOrder= async (req,res,next) => {
+    try {
+      const userId= req.user._id;
+      const orders= await Order.find({
+        user:userId
+      }).populate("stock").sort({createdAt:-1}).limit(5)
+
+      return res.status(200).json({
+          "success":true,
+          message:"order fetch successfully",
+          orders
+      })
+
+    } catch (error) {
+      next(error)
+    }
+}
+
+module.exports={
+  placeOrder,
+  recentOrder
+}
