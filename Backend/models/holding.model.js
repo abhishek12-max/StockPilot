@@ -6,20 +6,20 @@ const holdingSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true,
+     
     },
 
     stock: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Stock",
       required: true,
-      index: true,
+      
     },
 
     quantity: {
       type: Number,
       required: true,
-      min: 0,
+      min: 1,
     },
 
     averagePrice: {
@@ -33,7 +33,6 @@ const holdingSchema = new mongoose.Schema(
   }
 );
 
-// One holding per user per stock
 holdingSchema.index(
   { user: 1, stock: 1 },
   { unique: true }
