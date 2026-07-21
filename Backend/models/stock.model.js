@@ -27,7 +27,11 @@ const stockSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-
+    currentPrice:{
+       type:Number,
+       required:true,
+       min:1
+    },
     industry: {
       type: String,
       required: true,
