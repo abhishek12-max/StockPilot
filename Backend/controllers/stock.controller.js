@@ -1,18 +1,22 @@
 const Stock = require("../models/stock.model");
 
-const searchStock = async (req, res, next) => {
+const getStocks = async (req, res, next) => {
   try {
-    const { keyword } = req.query;
+    const {
+      keyword,
+      sort = "createdAt",
+      order = "desc",
+      page = 1,
+      limit = 10,
+    } = req.query;
 
-    if (!keyword) {
-      return res.status(400).json({
-        success: false,
-        message: "Keyword is required",
-      });
-    }
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
 
-    const stocks = await Stock.find({
-      $or: [
+    const query = {};
+
+    if (keyword) {
+      query.$or = [
         {
           symbol: {
             $regex: keyword,
@@ -25,13 +29,36 @@ const searchStock = async (req, res, next) => {
             $options: "i",
           },
         },
-      ],
-    });
+      ];
+    }
+
+    let sortOrder = -1;
+
+   if (order === "asc") {
+    sortOrder = 1;
+     }
+
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const [totalStocks, stocks] = await Promise.all([
+      Stock.countDocuments(query),
+
+      Stock.find(query)
+        .sort({ [sort]: sortOrder })
+        .skip(skip)
+        .limit(limitNumber),
+    ]);
 
     return res.status(200).json({
       success: true,
       message: "Stocks fetched successfully",
       stocks,
+      pagination: {
+        page: pageNumber,
+        limit: limitNumber,
+        totalStocks,
+        totalPages: Math.ceil(totalStocks / limitNumber),
+      },
     });
   } catch (error) {
     next(error);
@@ -39,5 +66,5 @@ const searchStock = async (req, res, next) => {
 };
 
 module.exports = {
-  searchStock,
+  getStocks,
 };
