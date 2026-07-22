@@ -6,6 +6,7 @@ const orderRoutes= require("./routes/order.routes");
 const holdingRoutes=require("./routes/holding.routes");
 const portfolioRoutes= require("./routes/portfolio.routes");
 const stockRoutes= require("./routes/stock.routes");
+const dashboardRoutes= require("./routes/dashboard.routes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middlewares/error.middleware");
@@ -26,6 +27,7 @@ app.use("/api/order",orderRoutes);
 app.use("/api/holding",holdingRoutes);
 app.use("/api/portfolio",portfolioRoutes);
 app.use("/api/stocks",stockRoutes);
+app.use("/api/dashboard",dashboardRoutes);
 app.use(errorMiddleware);
 module.exports = app;
 

@@ -43,3 +43,7 @@ const getDashboard= async (req,res,next) => {
         next(error)
      }
 }
+
+module.exports={
+   getDashboard
+}
