@@ -1,4 +1,4 @@
-import Marketcard from "./Marketcard";
+import Marketcard from "../ui/Marketcard";
 
 function Livemarket() {
 

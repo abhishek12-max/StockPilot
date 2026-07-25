@@ -1,5 +1,4 @@
-import AifeatureCard from "./AifeatureCard";
-
+import AifeatureCard from "../ui/AifeatureCard";
 function Aifeatures() {
     const featureData = [
   {
