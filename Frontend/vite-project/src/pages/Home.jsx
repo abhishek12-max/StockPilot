@@ -1,3 +1,4 @@
+import Aifeatures from "../components/layout/Aifeatures";
 import Hero from "../components/layout/Hero";
 import Livemarket from "../components/layout/Livemarket";
 import Navbar from "../components/layout/Navbar"
@@ -7,6 +8,7 @@ function Home() {
             <Navbar/>
             <Hero/>
             <Livemarket/>
+            <Aifeatures/>
         </div>
      );
 }
