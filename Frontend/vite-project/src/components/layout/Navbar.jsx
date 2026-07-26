@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
 
@@ -21,8 +22,7 @@ const Navbar = () => {
 
                 <div className="hidden md:flex items-center gap-8">
 
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">About</a>
-
+                   <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300">About</Link>
                     <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Markets</a>
 
                     <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Features</a>

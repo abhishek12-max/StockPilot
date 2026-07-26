@@ -3,7 +3,7 @@ function Footer() {
   return (
     <footer className="border-t border-white/10 bg-slate-950 px-6 py-12">
 
-      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 px-10">
 
         {/* Brand */}
            <div>
