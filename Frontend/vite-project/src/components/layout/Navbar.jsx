@@ -23,8 +23,8 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center gap-8">
 
                    <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300">About</Link>
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Markets</a>
-
+                   <Link to={"/pricing"} className="text-gray-300 hover:text-white transition-colors duration-300">Pricing</Link>
+                
                     <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Features</a>
 
                     <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Pricing</a>
@@ -71,10 +71,10 @@ const Navbar = () => {
 
                         <div className="flex flex-col p-6 gap-5">
 
-                            <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300"   onClick={() => setOpen(false)}>About</a>
+                            <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300"   onClick={() => setOpen(false)}>About</Link>
                             <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Markets</a>
                             <a href="#"className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Features</a>
-                            <a href="#"className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Pricing</a>
+                            <Link to={"/pricing"} className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Pricing</Link>
                             <a href="#"className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Support</a>
 
                             <button className="px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300">
