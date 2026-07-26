@@ -21,15 +21,10 @@ const Navbar = () => {
                 {/* Desktop Menu */}
 
                 <div className="hidden md:flex items-center gap-8">
-
+                   <Link to={"/"} className="text-gray-300 hover:text-white transition-colors duration-300">Home</Link>
                    <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300">About</Link>
                    <Link to={"/pricing"} className="text-gray-300 hover:text-white transition-colors duration-300">Pricing</Link>
-                
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Features</a>
-
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Pricing</a>
-
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">Support</a>
+                    <Link to={"/support"} className="text-gray-300 hover:text-white transition-colors duration-300">Support</Link>
 
                 </div>
 
@@ -70,10 +65,9 @@ const Navbar = () => {
                     <div className="md:hidden bg-slate-950 border-t border-white/10">
 
                         <div className="flex flex-col p-6 gap-5">
-
+                            <Link to={"/"} className="text-gray-300 hover:text-white transition-colors duration-300"   onClick={() => setOpen(false)}>Home</Link>
+                            
                             <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300"   onClick={() => setOpen(false)}>About</Link>
-                            <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Markets</a>
-                            <a href="#"className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Features</a>
                             <Link to={"/pricing"} className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Pricing</Link>
                             <a href="#"className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Support</a>
 
