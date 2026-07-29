@@ -45,6 +45,13 @@ function Footer() {
           </Link>
         </li>
 
+         <li>
+          <Link to="/support" className="text-slate-400 hover:text-violet-500 transition-colors     duration-300">
+            support
+          </Link>
+        </li>
+
+
       </ul>
 
     </div>
