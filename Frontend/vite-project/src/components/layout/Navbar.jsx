@@ -13,7 +13,7 @@ const Navbar = () => {
 
                 {/* Logo */}
 
-                <h1 className="text-2xl font-extrabold tracking-tight text-white cursor-pointer">
+                <h1 className="text-3xl font-extrabold tracking-tight text-white cursor-pointer">
                     Trade
                     <span className="text-purple-500">X</span>
                 </h1>
@@ -21,10 +21,10 @@ const Navbar = () => {
                 {/* Desktop Menu */}
 
                 <div className="hidden md:flex items-center gap-8">
-                   <Link to={"/"} className="text-gray-300 hover:text-white transition-colors duration-300">Home</Link>
-                   <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300">About</Link>
-                   <Link to={"/pricing"} className="text-gray-300 hover:text-white transition-colors duration-300">Pricing</Link>
-                    <Link to={"/support"} className="text-gray-300 hover:text-white transition-colors duration-300">Support</Link>
+                   <Link to={"/"} className="text-gray-300 hover:text-white transition-colors duration-300 text-xl">Home</Link>
+                   <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300 text-xl">About</Link>
+                   <Link to={"/pricing"} className="text-gray-300 hover:text-white transition-colors duration-300 text-xl">Pricing</Link>
+                    <Link to={"/support"} className="text-gray-300 hover:text-white transition-colors duration-300 text-xl">Support</Link>
 
                 </div>
 
@@ -32,11 +32,11 @@ const Navbar = () => {
 
                 <div className="hidden md:flex items-center gap-4">
 
-                    <button className="px-4 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300">
+                    <button className="px-4 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 text-2xl">
                         Login
                     </button>
 
-                    <button className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30">
+                    <button className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-xl  ">
                         Get Started
                     </button>
 
@@ -75,7 +75,7 @@ const Navbar = () => {
                                 Login
                             </button>
 
-                            <button className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 hover:shadow-purple-500/50 transition-all duration-300 shadow-lg shadow-purple-500/30">
+                            <button className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 hover:shadow-purple-500/50 transition-all duration-300 shadow-lg shadow-purple-500/30 font-md">
                                 Get Started
                             </button>
 

@@ -10,6 +10,7 @@ import Forgetpassword from "./pages/Forgetpassword";
 import Resetpassword from "./pages/Resetpassword";
 import Dashboard from "./pages/Dashboard";
 import Portfolio from "./pages/Portfolio";
+import Orders from "./pages/Orders";
 function App() {
   return (
     <Routes>
@@ -23,6 +24,7 @@ function App() {
       <Route path="/forgetpassword" element={<Forgetpassword/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/portfolio" element={<Portfolio />} />
+      <Route path="/orders" element={<Orders />} />
           
     </Routes>
     

@@ -41,7 +41,7 @@ const Hero = () => {
       {/* Badge */}
       <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2">
         <span>✨</span>
-        <span className="text-sm font-medium text-purple-300">
+        <span className="text-2xl font-medium text-purple-300">
           AI-Powered Stock Trading
         </span>
       </div>
