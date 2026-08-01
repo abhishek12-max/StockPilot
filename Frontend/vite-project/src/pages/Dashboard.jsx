@@ -2,13 +2,15 @@ import Dashboardlayout from "../components/layout/Dashboardlayout";
 import SummaryCard from "../components/dashboard/SummaryCard";
 import RecentOrders from "../components/dashboard/RecentOrders";
 import Watchlist from "../components/dashboard/Watchlist";
+import { useEffect, useState } from "react";
+import api from "../api/api";
 import {
   FiDollarSign,
   FiTrendingUp,
   FiPieChart,
   FiShoppingBag,
 } from "react-icons/fi";
-import PortfolioChart from "../components/dashboard/PortfolioChat";
+import PortfolioChart from "../components/dashboard/PortfolioChart";
 
 const cards = [
   {
@@ -88,6 +90,16 @@ const watchlist = [
   },
 ];
 function Dashboard() {
+  const [dashboard, setDashboard] = useState(null);
+
+  const FetchDashboard= async()=>{
+     const response= await api.get("/dashboard");
+     setDashboard(response.data.dashboard);
+  }
+
+  useEffect(()=>{
+   FetchDashboard();
+  },[]);
     return (  
         <>
         <Dashboardlayout>

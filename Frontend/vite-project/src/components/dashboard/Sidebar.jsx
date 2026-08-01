@@ -22,11 +22,7 @@ const menuItems = [
     path: "/portfolio",
     icon: FiPieChart,
   },
-  {
-    name: "Holdings",
-    path: "/holdings",
-    icon: FiBriefcase,
-  },
+ 
   {
     name: "Orders",
     path: "/orders",

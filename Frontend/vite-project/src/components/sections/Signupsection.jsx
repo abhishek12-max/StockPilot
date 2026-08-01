@@ -1,46 +1,46 @@
 import { Eye } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import api from "../../api/api";
 function Signupsection() {
-
+const navigate= useNavigate();
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
     password: "",
-    profileImage: null,
+   
   });
-
+  const[loading,setLoading]=useState(false);
   const [errors, setErrors] = useState({
     fullname: "",
     email: "",
     password: "",
-    profileImage: "",
+   
   });
+
+  const [servererror,setServererror]=useState("");
 
   function handleChange(e) {
 
-    const { name, value, files } = e.target;
-
     setFormData({
       ...formData,
-      [name]: files ? files[0] : value,
+      [e.target.name]: e.target.value,
     });
 
     setErrors({
       ...errors,
-      [name]: "",
+      [e.target.name]: "",
     });
   }
 
-  function handleSubmit(e) {
+ async function handleSubmit(e) {
     e.preventDefault();
 
     const newErrors = {
       fullname: "",
       email: "",
       password: "",
-      profileImage: "",
+      
     };
 
     if (!formData.fullname.trim()) {
@@ -67,13 +67,29 @@ function Signupsection() {
     if (
       newErrors.fullname ||
       newErrors.email ||
-      newErrors.password ||
-      newErrors.profileImage
+      newErrors.password 
     ) {
       return;
     }
-
-    console.log(formData);
+     
+    try {
+          setLoading(true);
+          setServererror("");
+        const response= await api.post("/auth/register",formData);
+       if (response.data.success) {
+        navigate("/verify-otp", {
+          state: {            // ye state usestate nhi hai react router navigation ki state hai
+         email: formData.email,
+         },
+       });
+    }
+        
+    } catch (error) {
+        setServererror(error.response?.data?.message||"something went wrong");
+    }finally{
+       setLoading(false)
+    }
+  
   }
 
   return (
@@ -190,31 +206,21 @@ function Signupsection() {
 
                 </div>
 
-                {/* Profile Image */}
+                   {servererror && (
+                <p className="text-red-500 text-sm mb-4">
+               {servererror}
+                </p>
+                )}
 
-                <div className="mt-6">
-
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Profile Image
-                  </label>
-
-                  <input
-                    type="file"
-                    name="profileImage"
-                    accept="image/*"
-                    className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3"
-                    onChange={handleChange}
-                  />
-
-                </div>
+              
 
                 {/* Button */}
-
-                <button className="rounded-full py-3 border border-slate-700 text-white w-full mt-8 bg-purple-600 hover:bg-purple-500 transition-colors">
-
-                  Create Account
-
-                </button>
+                <button
+                disabled={loading}
+            className="rounded-full py-3 border border-slate-700 text-white w-full mt-8 bg-purple-600 hover:bg-purple-500 transition-colors"
+             >
+             {loading ? "Creating Account..." : "Create Account"}
+           </button>
 
                 <div className="mt-6 text-center mb-6">
 

@@ -1,3 +1,4 @@
+import { FaEye } from "react-icons/fa";
 const OrderList = ({ orders }) => {
   return (
     <div className="rounded-2xl border border-slate-800 bg-[#0B1023] p-6">
@@ -61,10 +62,11 @@ const OrderList = ({ orders }) => {
 
                 <td>{stock.date}</td>
                 <td>
-                  <button className="rounded-lg bg-purple-600 px-4 py-2 text-sm text-white hover:bg-purple-700">
-                    View
-                  </button>
-                </td>
+            <button className="flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-sm text-white hover:bg-purple-700">
+           <FaEye size={14} />
+         View
+      </button>
+      </td>
               </tr>
             ))}
           </tbody>
@@ -91,9 +93,10 @@ const OrderList = ({ orders }) => {
                 </p>
               </div>
 
-              <button className="rounded-lg bg-purple-600 px-3 py-2 text-sm text-white hover:bg-purple-700">
-                View
-              </button>
+           <button className="flex items-center gap-2 rounded-lg bg-purple-600 px-3 py-2 text-sm text-white hover:bg-purple-700">
+          <FaEye size={14} />
+           View
+          </button>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-4 text-sm">

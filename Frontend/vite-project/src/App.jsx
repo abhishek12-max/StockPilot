@@ -11,6 +11,9 @@ import Resetpassword from "./pages/Resetpassword";
 import Dashboard from "./pages/Dashboard";
 import Portfolio from "./pages/Portfolio";
 import Orders from "./pages/Orders";
+import Watchlist from "./pages/WatchList";
+import Settings from "./pages/Settings";
+import Verifyotp from "./pages/Verifyotp";
 function App() {
   return (
     <Routes>
@@ -20,11 +23,15 @@ function App() {
       <Route path="/support" element={<Support/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<Signup/>}/>
-      <Route path="/resetpassword" element={<Resetpassword/>}/>
-      <Route path="/forgetpassword" element={<Forgetpassword/>}/>
+      <Route path="/verify-otp" element={<Verifyotp/>}/>
+      <Route path="/reset-password" element={<Resetpassword/>}/>
+      <Route path="/forget-password" element={<Forgetpassword/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/portfolio" element={<Portfolio />} />
       <Route path="/orders" element={<Orders />} />
+      <Route path="/watchlist" element={<Watchlist />} />
+      <Route path="/settings" element={<Settings/>} />
+
           
     </Routes>
     

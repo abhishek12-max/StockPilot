@@ -32,7 +32,8 @@ const Navbar = () => {
 
                 <div className="hidden md:flex items-center gap-4">
 
-                    <button className="px-4 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 text-2xl">
+                    <button className="px-4 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 text-2xl "
+                       >
                         Login
                     </button>
 

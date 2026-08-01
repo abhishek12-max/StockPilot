@@ -1,19 +1,23 @@
 import{Eye} from "lucide-react"
-import { Link,} from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 import { useState } from "react";
+import api from "../../api/api";
 function Loginsection() {
 
+   const navigate = useNavigate();
 
     const [formdata,setFormdata]=useState({
         email:"",
         password:""
     });
 
-    const [errors,setErrors]=useState({
+    const [errors,setErrors]=useState({   // for client side errors
         email:"",
         password:""
     })
-
+      const [loading,setLoading]=useState(false)
+    const[servererror,setServererror]=useState("") // for server side errors
+  
     function handlechange(e){
          setFormdata({
             ...formdata,
@@ -27,7 +31,7 @@ function Loginsection() {
 
    
    
-    function handleSubmit(e){
+  async function handleSubmit(e){
          e.preventDefault();
          const newErrors = {
         email: "",
@@ -43,12 +47,28 @@ function Loginsection() {
        if (!formdata.password) {
            newErrors.password = "Password is required";
        }
+
         setErrors(newErrors);
         if(newErrors.email||newErrors.password){
              return;
         }
+          try {
+              setLoading(true)
+             setServererror("");
+          const response = await api.post("/auth/login", formdata);
+              if (response.data.success) {
+                  navigate("/dashboard");
+               }
+          } catch (error) {
+            console.log(error.response.data);
+            setServererror(error.response?.data?.message||"something went wrong");
+          }finally{
+            setLoading(false)
+          }
         
     }
+
+   
    
 
     return ( 
@@ -96,8 +116,8 @@ function Loginsection() {
                   <div className="relative">
                   <input type="password" name="password" value={formdata.password} placeholder="Enter Your Password" className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500" onChange={handlechange} />
                     {
-    errors.password && (
-        <p className="text-red-500 text-sm mt-2">
+               errors.password && (
+            <p className="text-red-500 text-sm mt-2">
             {errors.password}
         </p>
     )
@@ -112,6 +132,11 @@ function Loginsection() {
                             Forget Password
                          </Link>
                    </div>
+                      {servererror && (
+                <p className="text-red-500 text-sm mb-4">
+               {servererror}
+                </p>
+                )}
                    {/* signIN button */}
                      <div>
                         <button className="rounded-full   py-3 border border-slate-700 text-white w-full mb-10 bg-purple-600 hover:bg-purple-500 transition-colors">
