@@ -5,6 +5,7 @@ const generateOtp = require("../utils/generateOtp");
 const sendMail = require("../utils/sendMail");
 const jwt= require("jsonwebtoken");
 const { generateAccessToken, generateRefreshToken } = require("../utils/generatetoken");
+
 const register= async (req,res,next) => {
      try {
          
@@ -101,61 +102,67 @@ const verifyOtp= async (req,res,next) => {
         next(error)
      }
 }
-const login= async (req,res,next) => {
-    try {
-       
-       const {email,password}= req.body;
-       const User= await userModel.findOne({
-        email
-       })
-       if(!User){
-           return res.status(401).json({
-            "success": false,
-            message:"Invalid Email or Password"
-           })
-       }
-        if(User.isVerified===false){
-           return res.status(403).json({
-            "success":false,
-            message:"Please verify your email first"
-           })
-        }
-        const isMatch= await bcrypt.compare(password,User.password);
-        if(!isMatch){
-            return res.status(401).json({
-                "success":false,
-                message:"Invalid Email or Password"
-            })
-        }
-         const accessToken= generateAccessToken(User);
-         const refreshToken= generateRefreshToken(User);
-         User.refreshToken= refreshToken
-         await User.save();
-         res.cookie("accessToken", accessToken, {
-  httpOnly: true,
-  secure: false,
-  sameSite: "lax",
-  maxAge: 10 * 60 * 1000,
-  path: "/",
-});
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-res.cookie("refreshToken", refreshToken, {
-  httpOnly: true,
-  secure: false,
-  sameSite: "lax",
-  maxAge: 30 * 24 * 60 * 60 * 1000,
-  path: "/",
-});
-           
-          res.status(200).json({
-            "success":true,
-            message:"login successfull"
-        })
-    } catch (error) {
-        next(error)
+    const User = await userModel.findOne({ email });
+
+    if (!User) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid Email or Password",
+      });
     }
-}
 
+    if (!User.isVerified) {
+      return res.status(403).json({
+        success: false,
+        message: "Please verify your email first",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, User.password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid Email or Password",
+      });
+    }
+
+    const accessToken = generateAccessToken(User);
+    const refreshToken = generateRefreshToken(User);
+
+    User.refreshToken = refreshToken;
+    await User.save();
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    };
+
+    res.cookie("accessToken", accessToken, {
+      ...cookieOptions,
+      maxAge: 10 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      ...cookieOptions,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
 
 const forgetPassword= async (req,res,next) => {
       try {
@@ -311,12 +318,16 @@ const resendOtp= async (req,res,next) => {
 
     const accessToken = generateAccessToken(user);
 
-    res.cookie("accessToken", accessToken, {
+    const cookieOptions = {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 10 * 60 * 1000,
+      secure: true,
+      sameSite: "none",
       path: "/",
+    };
+
+    res.cookie("accessToken", accessToken, {
+      ...cookieOptions,
+      maxAge: 10 * 60 * 1000,
     });
 
     return res.status(200).json({
@@ -335,19 +346,16 @@ const logout = async (req, res, next) => {
     req.user.refreshToken = "";
     await req.user.save();
 
-    res.clearCookie("accessToken", {
+    const cookieOptions = {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      secure: true,
+      sameSite: "none",
       path: "/",
-    });
+    };
 
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-      path: "/",
-    });
+    res.clearCookie("accessToken", cookieOptions);
+
+    res.clearCookie("refreshToken", cookieOptions);
 
     return res.status(200).json({
       success: true,
