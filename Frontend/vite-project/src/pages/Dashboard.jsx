@@ -3,7 +3,7 @@ import SummaryCard from "../components/dashboard/SummaryCard";
 import RecentOrders from "../components/dashboard/RecentOrders";
 import Watchlist from "../components/dashboard/Watchlist";
 import PortfolioChart from "../components/dashboard/PortfolioChart";
-import AIChat from "../components/AI/AIChat";
+import AiChat from "../components/AI/AiChat";
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
@@ -194,7 +194,7 @@ function Dashboard() {
 
           {user?.plan === "PRO" || user?.plan === "PREMIUM" ? (
 
-            <AIChat />
+            <AiChat />
 
           ) : (
 
