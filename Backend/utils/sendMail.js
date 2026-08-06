@@ -1,18 +1,17 @@
-const transporter = require("../config/mail.config");
-
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 const sendMail = async (email, subject, html) => {
   try {
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: "TradeX <onboarding@resend.dev>",
       to: email,
       subject,
       html,
-    };
-
-    return await transporter.sendMail(mailOptions);
+    });
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
 module.exports = sendMail;
+
