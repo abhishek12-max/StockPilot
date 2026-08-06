@@ -1,9 +1,16 @@
-const express = require("express");
+const Stock = require("../models/stock.model");
 
-const router = express.Router();
+router.get("/seed", async (req, res) => {
+  await Stock.deleteMany();
 
-const marketController = require("../controllers/market.controller");
+  await Stock.insertMany([
+    // <-- yahin apna wahi 10 stocks ka array paste kar
+  ]);
 
-router.get("/", marketController.getMarketStocks);
+  const count = await Stock.countDocuments();
 
-module.exports = router;
+  res.json({
+    success: true,
+    count,
+  });
+});
