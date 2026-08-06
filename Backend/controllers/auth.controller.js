@@ -42,7 +42,7 @@ const register= async (req,res,next) => {
              otp,
              otpExpiry
          })
-        //  await sendMail(email,"Email verification",`your otp is ${otp} this is valid for 5 minutes`)
+         await sendMail(email,"Email verification",`your otp is ${otp} this is valid for 5 minutes`)
          res.status(201).json({
             "success":true,
             message:"Registration successful. Please verify your email, using the OTP sent to your email."
