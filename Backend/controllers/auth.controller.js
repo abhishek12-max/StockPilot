@@ -175,7 +175,20 @@ const forgetPassword= async (req,res,next) => {
              existingUser.otp=otp;
              existingUser.otpExpiry=otpExpiry
              await existingUser.save();
-             await sendMail(email,"Reset Your Password",`OTP sent successfully for password reset.${otp} this is valid for 5 minutes`);
+            await sendMail(
+  email,
+  "Reset Your Password",
+  `
+  <h2>TradeX Password Reset</h2>
+  <p>Your OTP is:</p>
+
+  <h1>${otp}</h1>
+
+  <p>This OTP will expire in <b>5 minutes</b>.</p>
+
+  <p>If you didn't request this, ignore this email.</p>
+  `
+);
              return res.status(200).json({
                 "success":true,
                 message:"a new otp has been sent to  your email"
