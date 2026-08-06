@@ -1,87 +1,148 @@
 const Stock= require("../models/stock.model");
 const Order= require("../models/order.model");
 const  Holding= require("../models/holding.model");
-const placeOrder= async (req,res,next) => {
-    try {
-        const userId= req.user._id;
-        const{stockId,quantity,price,side,orderType}= req.body
-        const existingstock= await Stock.findById(stockId);
-         if(!existingstock){
-            return res.status(404).json({
-                "success":false,
-                message:"stock not found"
-            })
-         }
-         if(side==="BUY"){
-              const existingHolding= await Holding.findOne({
-                user:userId,
-                stock:stockId
-              });
-              if(!existingHolding){
-                   const holding= await Holding.create({
-                       user:userId,
-                       stock:stockId,
-                       quantity,
-                       averagePrice:price
-                   });
-              }else{
-                   const oldInvestment= existingHolding.quantity*existingHolding.averagePrice;
-                   const newInvestment=  quantity*price
-                 const  totalquantity= existingHolding.quantity+quantity;
-                  const totalInvestment= oldInvestment+newInvestment;
-                const newAveragePrice= totalInvestment/totalquantity;
-                 existingHolding.quantity=  totalquantity;
-                existingHolding.averagePrice= newAveragePrice
-               await existingHolding.save();
-              }
-         }
-          else if(side==="SELL"){
-              const existingHolding= await Holding.findOne({
-                user:userId,
-                stock:stockId
-              });
-
-              if(!existingHolding){
-                  return res.status(400).json({
-                    "success":false,
-                    message:"you don't own this stock"
-                  })
-              }
 
 
-              if(existingHolding.quantity<quantity){
-                   return res.status(400).json({
-                    "success":false,
-                    message:"unsuffient shares"
-                  });
-              }
+const placeOrder = async (req, res, next) => {
+  try {
 
-              const newQuantity= existingHolding.quantity-quantity;
-              if(newQuantity===0){
-                  await existingHolding.deleteOne();
-              }else{
-                   existingHolding.quantity= newQuantity;
-                 await existingHolding.save();
-              }
-         }
-           
-         const Order= await Order.create({
-               user:userId,
-               stock:stockId,
-               quantity,
-               price,
-               side,
-               orderType
-         })   
-         return res.status(201).json({
-            "success":true,
-            message:"order placed successfully",
-            Order
-         });
-    } catch (error) {
-        next(error)
+    const userId = req.user._id;
+
+    const {
+      stockId,
+      quantity,
+      side,
+      orderType,
+    } = req.body;
+
+    const stock = await Stock.findById(stockId);
+
+    if (!stock) {
+      return res.status(404).json({
+        success: false,
+        message: "Stock not found.",
+      });
     }
-}
+
+    if (side === "BUY") {
+
+      const existingHolding = await Holding.findOne({
+        user: userId,
+        stock: stock._id,
+      });
+
+      if (!existingHolding) {
+
+        await Holding.create({
+          user: userId,
+          stock: stock._id,
+          quantity,
+          averagePrice: stock.currentPrice,
+        });
+
+      } else {
+
+        const oldInvestment =
+          existingHolding.quantity *
+          existingHolding.averagePrice;
+
+        const newInvestment =
+          quantity * stock.currentPrice;
+
+        const totalQuantity =
+          existingHolding.quantity + quantity;
+
+        const totalInvestment =
+          oldInvestment + newInvestment;
+
+        existingHolding.quantity =
+          totalQuantity;
+
+        existingHolding.averagePrice =
+          totalInvestment / totalQuantity;
+
+        await existingHolding.save();
+
+      }
+
+    } else if (side === "SELL") {
+
+      const existingHolding = await Holding.findOne({
+        user: userId,
+        stock: stock._id,
+      });
+
+      if (!existingHolding) {
+        return res.status(400).json({
+          success: false,
+          message: "You don't own this stock.",
+        });
+      }
+
+      if (existingHolding.quantity < quantity) {
+        return res.status(400).json({
+          success: false,
+          message: "Insufficient shares.",
+        });
+      }
+
+      const remainingQuantity =
+        existingHolding.quantity - quantity;
+
+      if (remainingQuantity === 0) {
+
+        await existingHolding.deleteOne();
+
+      } else {
+
+        existingHolding.quantity =
+          remainingQuantity;
+
+        await existingHolding.save();
+
+      }
+
+    }
+
+    const order = await Order.create({
+
+      user: userId,
+
+      stock: stock._id,
+
+      quantity,
+
+      price: stock.currentPrice,
+
+      side,
+
+      orderType,
+
+      status: "COMPLETED",
+
+    });
+
+    const message =
+      side === "BUY"
+        ? "Stock purchased successfully."
+        : "Stock sold successfully.";
+
+    return res.status(201).json({
+
+      success: true,
+
+      message,
+
+      order,
+
+    });
+
+  } catch (error) {
+
+    next(error);
+
+  }
+};
 
 const recentOrder= async (req,res,next) => {
     try {
@@ -101,7 +162,30 @@ const recentOrder= async (req,res,next) => {
     }
 }
 
+const getOrders = async (req, res, next) => {
+  try {
+
+    const userId = req.user._id;
+
+    const orders = await Order.find({
+      user: userId,
+    })
+      .populate("stock", "symbol companyName")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      message: "Orders fetched successfully.",
+      orders,
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports={
   placeOrder,
-  recentOrder
+  recentOrder,
+  getOrders
 }

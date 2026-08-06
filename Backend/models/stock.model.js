@@ -1,4 +1,4 @@
-const mongoose= require("mongoose");
+const mongoose = require("mongoose");
 
 const stockSchema = new mongoose.Schema(
   {
@@ -18,32 +18,20 @@ const stockSchema = new mongoose.Schema(
 
     exchange: {
       type: String,
-      enum: ["NSE", "BSE"],
-      required: true,
-    },
-
-    sector: {
-      type: String,
       required: true,
       trim: true,
     },
-    currentPrice:{
-       type:Number,
-       required:true,
-       min:1
-    },
+
     industry: {
       type: String,
-      required: true,
+      default: "Unknown",
       trim: true,
     },
 
-    isin: {
-      type: String,
+    currentPrice: {
+      type: Number,
       required: true,
-      unique: true,
-      uppercase: true,
-      trim: true,
+      min: 0,
     },
 
     isActive: {
@@ -56,6 +44,4 @@ const stockSchema = new mongoose.Schema(
   }
 );
 
-const Stock = mongoose.model("Stock", stockSchema);
-
-module.exports=Stock
+module.exports = mongoose.model("Stock", stockSchema);

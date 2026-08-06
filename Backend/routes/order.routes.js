@@ -8,5 +8,9 @@ const ordercontroller= require("../controllers/order.controller");
 
 router.post("/",authmiddleware,ordervalidation,validationMiddleware,ordercontroller.placeOrder);
 router.get("/recent",authmiddleware,ordercontroller.recentOrder);
-
+router.get(
+   "/",
+   authmiddleware,
+   ordercontroller.getOrders
+);
 module.exports=router;

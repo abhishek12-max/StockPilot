@@ -1,28 +1,28 @@
-const {body, param}= require("express-validator");
+const { body, param } = require("express-validator");
 
+const watchlistValidation = [
 
-const watchlistValidation=[
-      
-      body("stockId")
-        .trim()
-      .notEmpty()
-      .withMessage("Stock id is required.")
-      .bail()
-      .isMongoId()
-      .withMessage("Invalid stock id."),
+  body("stockId")
+    .notEmpty()
+    .withMessage("Stock id is required.")
+    .bail()
+    .isMongoId()
+    .withMessage("Invalid stock id."),
 
 ];
 
-const deleteWatchlistValidation=[
-      param("stockId")
-      .notEmpty()
-        .bail()
-      .withMessage("stock is required")
-      .isMongoId()
-      .withMessage("Invalid stock id")
-]
+const deleteWatchlistValidation = [
 
-module.exports={
-    watchlistValidation,
-    deleteWatchlistValidation
-}
+  param("stockId")
+    .notEmpty()
+    .withMessage("Stock id is required.")
+    .bail()
+    .isMongoId()
+    .withMessage("Invalid stock id."),
+
+];
+
+module.exports = {
+  watchlistValidation,
+  deleteWatchlistValidation,
+};

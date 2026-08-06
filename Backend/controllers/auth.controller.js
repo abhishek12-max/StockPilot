@@ -5,7 +5,6 @@ const generateOtp = require("../utils/generateOtp");
 const sendMail = require("../utils/sendMail");
 const jwt= require("jsonwebtoken");
 const { generateAccessToken, generateRefreshToken } = require("../utils/generatetoken");
-const imagekit = require("../config/imagekit");
 const register= async (req,res,next) => {
      try {
          
@@ -16,6 +15,7 @@ const register= async (req,res,next) => {
          if(existinguser){
              if(existinguser.isVerified==true){
                 return res.status(409).json({
+                    "success":false,
                     message:"already register"
                 })
              }
@@ -27,6 +27,7 @@ const register= async (req,res,next) => {
                  await existinguser.save()
                  await sendMail(email,"Email verification",`your otp is ${otp} this is valid for 5 minutes`);
                  return res.status(200).json({
+                    "success":true,
                     message:"a new otp has been sent to  your email"
                  })
                 }
@@ -43,6 +44,7 @@ const register= async (req,res,next) => {
          })
          await sendMail(email,"Email verification",`your otp is ${otp} this is valid for 5 minutes`)
          res.status(201).json({
+            "success":true,
             message:"Registration successful. Please verify your email, using the OTP sent to your email."
 
          })
@@ -129,16 +131,22 @@ const login= async (req,res,next) => {
          const refreshToken= generateRefreshToken(User);
          User.refreshToken= refreshToken
          await User.save();
-          res.cookie("accessToken", accessToken, {
-            httpOnly: true,
-           secure: false,         
-           sameSite: "lax"
-         });
-          res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-           secure: false,         
-           sameSite: "lax"
-         });
+         res.cookie("accessToken", accessToken, {
+  httpOnly: true,
+  secure: false,
+  sameSite: "lax",
+  maxAge: 10 * 60 * 1000,
+  path: "/",
+});
+
+res.cookie("refreshToken", refreshToken, {
+  httpOnly: true,
+  secure: false,
+  sameSite: "lax",
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+  path: "/",
+});
+           
           res.status(200).json({
             "success":true,
             message:"login successfull"
@@ -153,11 +161,12 @@ const forgetPassword= async (req,res,next) => {
       try {
        
         const {email}= req.body
-         const existingUser= await UserModel.findOne({
+         const existingUser= await userModel.findOne({
             email
          });
           if(!existingUser){
             return res.status(400).json({
+                "success":false,
                 message:"not found"
             })
          }
@@ -168,6 +177,7 @@ const forgetPassword= async (req,res,next) => {
              await existingUser.save();
              await sendMail(email,"Reset Your Password",`OTP sent successfully for password reset.${otp} this is valid for 5 minutes`);
              return res.status(200).json({
+                "success":true,
                 message:"a new otp has been sent to  your email"
              })
          
@@ -181,22 +191,25 @@ const resetPassword= async (req,res,next) => {
      try {
         
          const{email,otp,newpassword}=req.body
-        const existingUser=await UserModel.findOne({
+        const existingUser=await userModel.findOne({
             email
         });
          if(!existingUser){
               return res.status(404).json({
+                "success":false,
                 message:"not found"
               })
          }
 
          if(existingUser.otp!==otp){
              return res.status(400).json({
+                "success":false,
                 message:"invalid"
              })
          }
          if(new Date()>existingUser.otpExpiry){
             return res.status(400).json({
+                "success":false,
                 message:"otp exipred"
             })
         }
@@ -208,6 +221,7 @@ const resetPassword= async (req,res,next) => {
          await existingUser.save();
 
          return res.status(200).json({
+            "success":true,
             message:"your password sucessfully reset"
          })
      } catch (error) {
@@ -249,105 +263,109 @@ const resendOtp= async (req,res,next) => {
       }
 } 
 
-const refreshToken= async (req,res,next) => {
-     try {
-        
-         const token= req.cookies.refreshToken;
-      if(!token){
-        return res.status(401).json({
-            message:"unauthozired"
-        })
-      }
-      const decoded= jwt.verify(token,process.env.REFRESH_TOKEN_SECRET);
-      const user= await userModel.findById(decoded.id);
-        if(!user){
-            return res.status(400).json({
-                message:"not found"
-            })
-        }
-        if (user.refreshToken !== token) {
-    return res.status(401).json({
-        message: "Invalid Refresh Token"
+ const refreshToken = async (req, res, next) => {
+  try {
+
+    const token = req.cookies.refreshToken;
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    const user = await userModel.findById(decoded.id);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (user.refreshToken !== token) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid Refresh Token",
+      });
+    }
+
+    const accessToken = generateAccessToken(user);
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 10 * 60 * 1000,
+      path: "/",
     });
-    }
-    const accessToken= generateacesstoken(user);
-     res.cookie("accessToken",accessToken,{
+
+    return res.status(200).json({
+      success: true,
+      message: "Access token refreshed",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+const logout = async (req, res, next) => {
+  try {
+
+    req.user.refreshToken = "";
+    await req.user.save();
+
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      path: "/",
+    });
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      path: "/",
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Logout successful",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+const me = async (req, res, next) => {
+  try {
+      console.log(req.user);
+    res.status(200).json({
+      success: true,
+      message: "Profile fetched successfully.",
+      user: {
+        fullname: req.user.fullname,
+        email: req.user.email,
+        plan: req.user.plan,
         
-            httpOnly:true,
-            secure:false,
-            sameSite:"lax"   
-     })
-     res.status(200).json({
-        message:"Access token refresh"
-     })
-     } catch (error) {
-        next(error)
-     }
-}
+      },
+    });
 
-const logout= async (req,res,next) => {
-    try {
-         req.user.refreshToken=null
-         await req.user.save();
-         res.clearCookie("accessToken");
-         res.clearCookie("refreshToken");
-         res.status(200).json({
-            message:"logout successfull"
-         })
-    } catch (error) {
-        next(error)
-    }
-}
+  } catch (error) {
+    next(error);
+  }
+};
 
-const me= async (req,res,next) => {
-    try {
-        res.status(200).json({
-          success: true,
-          message: "Profile fetched successfully.",
-          user: {
-            fullname: req.user.fullname,
-            email: req.user.email
-          }
-       })
-    } catch (error) {
-        next(error)
-    }
-}
 
-const uploadProfileimage= async (req,res,next) => {
-      try {
-       
-        if(!req.file){
-            return res.status(400).json({
-                "success":false,
-                message:"Profile image is required"
-            })
-        }
-           const oldFileId= req.user.profileImageFileId;
-        const uploadedImage= await imagekit.upload({
-            file:req.file.buffer,
-            fileName:`${req.user._id}-${Date.now()}`
-        });
-              req.user.profileImage= uploadedImage.url
-            req.user.profileImageFileId= uploadedImage.fileId
-            await req.user.save();
-           
-            if (oldFileId) {
-                  try {
-                    await imagekit.deleteFile(oldFileId);
-                   } catch (error) {
-                    console.error("Failed to delete old image:", error);
-                }
-             }
-          return res.status(200).json({
-              success: true,
-           message: "Profile image uploaded successfully",
-           profileImage: req.user.profileImage
-          });
-      } catch (error) {
-        next(error)
-      }
-}
 
 
 const updateProfile= async (req,res,next) => {
@@ -379,5 +397,6 @@ module.exports={
     refreshToken,
     me,
     logout,
-    updateProfile
+    updateProfile,
+   
 }

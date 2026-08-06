@@ -25,20 +25,7 @@ const userSchema = new mongoose.Schema(
     type: String,
     default: ""
     },
-    profileImage: {
-      type: String,
-      default: "",
-    },
-     profileImageFileId: {
-      type: String,
-     default: ""
-      },
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
-    },
-
+    
     isVerified: {
       type: Boolean,
       default: false,
@@ -53,6 +40,11 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+   plan: {
+  type: String,
+  enum: ["FREE", "PRO"],
+  default: "FREE",
+},
   },
   {
     timestamps: true,
