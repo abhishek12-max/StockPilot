@@ -2,6 +2,7 @@ import { Eye } from "lucide-react";
 import { Link,useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../../api/api";
+import SigupImage from "../../assets/signuup.JPEG"
 function Signupsection() {
 const navigate= useNavigate();
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const navigate= useNavigate();
    
   });
   const[loading,setLoading]=useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
     fullname: "",
     email: "",
@@ -101,13 +103,15 @@ const navigate= useNavigate();
 
           {/* Left Side */}
 
-          <div className="hidden lg:flex justify-center items-center mt-5">
-
-            <div className="border border-slate-700 rounded-xl h-96 w-full flex items-center justify-center">
-              Signup Illustration
+          <div className="h-[400px] w-full overflow-hidden rounded-3xl border border-slate-700 bg-slate-900 shadow-2xl">
+          
+              <img
+                src={SigupImage}
+                alt="Signup Illustration"
+                className="h-full w-full object-cover"
+              />
+          
             </div>
-
-          </div>
 
           {/* Right Side */}
 
@@ -137,6 +141,7 @@ const navigate= useNavigate();
                     type="text"
                     name="fullname"
                     value={formData.fullname}
+                    autoComplete="name"
                     placeholder="Enter Your Full Name"
                     className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500"
                     onChange={handleChange}
@@ -162,6 +167,7 @@ const navigate= useNavigate();
                     type="email"
                     name="email"
                     value={formData.email}
+                    autoComplete="email"
                     placeholder="Enter Your Email"
                     className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500"
                     onChange={handleChange}
@@ -185,16 +191,20 @@ const navigate= useNavigate();
 
                   <div className="relative">
 
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      placeholder="Enter Your Password"
-                      className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500"
-                      onChange={handleChange}
-                    />
+                   <input
+  type={showPassword ? "text" : "password"}
+  name="password"
+  value={formData.password}
+  autoComplete="new-password"
+  placeholder="Enter Your Password"
+  className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500"
+  onChange={handleChange}
+/>
 
-                    <Eye className="absolute right-4 top-1/3" />
+<Eye
+  onClick={() => setShowPassword(!showPassword)}
+  className="absolute right-4 top-1/3 cursor-pointer text-slate-400 hover:text-white transition-colors"
+/>
 
                   </div>
 

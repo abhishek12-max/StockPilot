@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, Play ,ShieldCheck,Brain,Zap,LayoutDashboard} from "lucide-react";
 const Hero = () => {
    const features = [
@@ -58,10 +59,10 @@ const Hero = () => {
        </p>
         <div className="mt-8 flex flex-wrap items-center gap-4">
 
-              <button className=" group inline-flex items-center gap-2 rounded-full bg-purple-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-purple-700 hover:scale-105">
+              <Link to="/signup"  className=" group inline-flex items-center gap-2 rounded-full bg-purple-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-purple-700 hover:scale-105">
                   Get Started Free
                   <ArrowRight size={18}  className="transition-transform duration-300 group-hover:translate-x-1"/>
-              </button>
+              </Link>
 
              <button className=" inline-flex items-center gap-2 rounded-full border border-slate-700 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-slate-800">
                 Live Demo

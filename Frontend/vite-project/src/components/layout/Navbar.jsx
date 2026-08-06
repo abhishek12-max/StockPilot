@@ -7,16 +7,19 @@ const Navbar = () => {
     const [open, setOpen] = useState(false);
 
     return (
-        <nav className="fixed top-0 left-0 w-full z-50 border-b border-white/10bg-slate-950/80 backdrop-blur-xl">
+        <nav className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
 
             <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex justify-between items-center">
 
                 {/* Logo */}
 
-                <h1 className="text-3xl font-extrabold tracking-tight text-white cursor-pointer">
-                    Trade
-                    <span className="text-purple-500">X</span>
-                </h1>
+                <Link
+  to="/"
+  className="text-3xl font-extrabold tracking-tight text-white"
+>
+  Trade
+  <span className="text-purple-500">X</span>
+</Link>
 
                 {/* Desktop Menu */}
 
@@ -32,14 +35,19 @@ const Navbar = () => {
 
                 <div className="hidden md:flex items-center gap-4">
 
-                    <button className="px-4 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 text-2xl "
-                       >
-                        Login
-                    </button>
+                    <Link
+  to="/login"
+  className="px-4 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 text-2xl"
+>
+  Login
+</Link>
 
-                    <button className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-xl  ">
-                        Get Started
-                    </button>
+                    <Link
+  to="/signup"
+  className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30 text-xl"
+>
+  Get Started
+</Link>
 
                 </div>
 
@@ -70,15 +78,27 @@ const Navbar = () => {
                             
                             <Link to={"/about"} className="text-gray-300 hover:text-white transition-colors duration-300"   onClick={() => setOpen(false)}>About</Link>
                             <Link to={"/pricing"} className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Pricing</Link>
-                            <a href="#"className="text-gray-300 hover:text-white transition-colors duration-300"  onClick={() => setOpen(false)}>Support</a>
+                            <Link
+                             to="/support"
+                             className="text-gray-300 hover:text-white transition-colors duration-300"
+                             onClick={() => setOpen(false)}>Support
+                           </Link>
 
-                            <button className="px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300">
-                                Login
-                            </button>
+                           <Link
+                        to="/login"
+                        onClick={() => setOpen(false)}
+                        className="px-4 py-2 rounded-lg border border-white/10 text-center text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300"
+                      >
+                        Login
+                      </Link>
 
-                            <button className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 hover:shadow-purple-500/50 transition-all duration-300 shadow-lg shadow-purple-500/30 font-md">
-                                Get Started
-                            </button>
+                           <Link
+                      to="/signup"
+                      onClick={() => setOpen(false)}
+                      className="px-6 py-2 rounded-full bg-purple-600 text-center text-white hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
+                     >
+                   Get Started
+                   </Link>
 
                         </div>
 

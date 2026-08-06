@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../api/api";
+import signupImage from "../../assets/signuup.JPEG";
 
 function ResetPasswordSection() {
 
@@ -120,13 +121,19 @@ useEffect(() => {
 
           {/* Left */}
 
-          <div className="hidden lg:flex justify-center items-center mt-10">
+          <div className="hidden lg:flex justify-center items-center mt-5">
 
-            <div className="border border-slate-700 rounded-xl h-96 w-full flex items-center justify-center">
-              Reset Password Illustration
-            </div>
+  <div className="h-[300px] w-full overflow-hidden rounded-3xl border border-slate-700 bg-slate-900 shadow-2xl">
 
-          </div>
+    <img
+      src={signupImage}
+      alt="Reset Password"
+      className="h-full w-full object-cover"
+    />
+
+  </div>
+
+</div>
 
           {/* Right */}
 
@@ -156,6 +163,7 @@ useEffect(() => {
                      type="text"
                      name="otp"
                      value={formData.otp}
+                     
                      onChange={handleChange}
                      placeholder="Enter OTP"
                      maxLength={6}
@@ -183,6 +191,7 @@ useEffect(() => {
                type="password"
                name="password"
                value={formData.password}
+               autoComplete="new-password"
                onChange={handleChange}
                className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500"
              />
@@ -207,6 +216,7 @@ useEffect(() => {
           type="password"
        name="confirmPassword"
      value={formData.confirmPassword}
+     autoComplete="new-password"
   onChange={handleChange}
   placeholder="Confirm New Password"
   className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500"

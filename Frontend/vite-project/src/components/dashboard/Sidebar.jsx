@@ -1,3 +1,4 @@
+import api from "../../api/api";
 import {
   FiGrid,
   FiPieChart,
@@ -9,7 +10,8 @@ import {
   FiX,
 } from "react-icons/fi";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const menuItems = [
   {
@@ -22,7 +24,11 @@ const menuItems = [
     path: "/portfolio",
     icon: FiPieChart,
   },
- 
+   {
+    name: "Market",
+    path: "/market",
+    icon: FiBriefcase,
+  },
   {
     name: "Orders",
     path: "/orders",
@@ -41,6 +47,32 @@ const menuItems = [
 ];
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  
+   const navigate = useNavigate();
+const { setUser } = useAuth();
+
+ async function handleLogout() {
+
+  try {
+
+    const response = await api.post("/auth/logout");
+
+    setUser(null);
+
+    alert(response.data.message);
+
+    navigate("/login", { replace: true });
+
+  } catch (error) {
+
+    alert(
+      error.response?.data?.message ||
+      "Something went wrong."
+    );
+
+  }
+
+}
   return (
     <>
       <aside
@@ -106,7 +138,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         {/* Logout */}
 
         <div className="border-t border-slate-800 p-4">
-          <button className="flex w-full items-center gap-3 rounded-lg bg-blue-600 px-4 py-3 text-white transition hover:bg-blue-500">
+          <button className="flex w-full items-center gap-3 rounded-lg bg-blue-600 px-4 py-3 text-white transition hover:bg-blue-500" onClick={handleLogout}>
             <FiLogOut size={20} />
             Logout
           </button>

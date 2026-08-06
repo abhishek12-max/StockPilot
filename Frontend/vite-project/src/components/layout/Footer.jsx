@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 function Footer() {
   return (
     <footer className="border-t border-white/10 bg-slate-950 px-6 py-12">
@@ -63,10 +64,14 @@ function Footer() {
   </h3>
 
   <ul className="mt-4 space-y-3">
-
     <li>
-      <Link to="/contact" className="text-slate-400 hover:text-violet-500 transition-colors     duration-300">Contact</Link>
+      <Link
+  to="/contact"
+  className="hover:text-purple-400 transition text-slate-500">
+  Contact
+</Link>
     </li>
+   
       <li>
       <Link to="/privacy" className="text-slate-400 hover:text-violet-500 transition-colors     duration-300">Privacy Policy</Link>
     </li>
@@ -83,21 +88,31 @@ function Footer() {
                 Social
             </h3>
             <ul className="mt-4 space-y-3">
-             <li>
-                <a href="" target="_blank"  rel="noopener noreferrer" className="text-slate-400 hover:text-violet-500 transition-colors duration-300">
-                    Github
-                </a>
-             </li>
-             <li>
-                <a href="" target="_blank"  rel="noopener noreferrer" className="text-slate-400 hover:text-violet-500 transition-colors duration-300">
-                   LinkedIn
-                </a>
-             </li>
-             <li>
-                <a href="" target="_blank"  rel="noopener noreferrer" className="text-slate-400 hover:text-violet-500 transition-colors duration-300">
-                   Portfolio 
-                </a>
-             </li>
+               <li>
+  <a
+    href="https://github.com/yourusername"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 text-slate-400 hover:text-violet-500 transition"
+  >
+    <FaGithub />
+    GitHub
+  </a>
+</li>
+
+<li>
+  <a
+    href="https://linkedin.com/in/yourusername"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 text-slate-400 hover:text-violet-500 transition"
+  >
+    <FaLinkedin />
+    LinkedIn
+  </a>
+</li>
+             
+            
             </ul>
         </div>
 
@@ -106,7 +121,11 @@ function Footer() {
       <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-slate-500">
 
         © 2026 TradeX. All rights reserved.
+       
+      </div>
 
+      <div className="mt-4 text-center text-sm text-slate-500">
+        Built with ❤️ using React, Node.js, Express & MongoDB
       </div>
 
     </footer>

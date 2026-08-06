@@ -1,6 +1,9 @@
 import { Link,Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../../api/api";
+import loginImage from "../../assets/loginnn.JPEG";
+
+
 function ForgetPasswordSection() {
     const navigate= useNavigate();
     const [formData, setFormData] = useState({
@@ -82,11 +85,19 @@ const [successMessage, setSuccessMessage] = useState("");
 
           {/* Left */}
 
-          <div className="hidden lg:flex justify-center items-center mt-24 mb-14">
-            <div className="border border-slate-700 rounded-xl h-96 w-full flex items-center justify-center">
-              Forgot Password Illustration
-            </div>
-          </div>
+          <div className="hidden lg:flex justify-center items-center mt-5">
+
+  <div className="h-[300px] w-full overflow-hidden rounded-3xl border border-slate-700 bg-slate-900 shadow-2xl">
+
+    <img
+      src={loginImage}
+      alt="Forgot Password"
+      className="h-full w-full object-cover"
+    />
+
+  </div>
+
+</div>
 
           {/* Right */}
 
@@ -114,6 +125,7 @@ const [successMessage, setSuccessMessage] = useState("");
                    type="email"
                    name="email"
                    value={formData.email}
+                   autoComplete="email"
                    onChange={handleChange}
                    placeholder="Enter Your Email"
                    className="w-full rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 outline-none focus:border-purple-500"

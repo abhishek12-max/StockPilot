@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Target, TargetIcon } from "lucide-react";
 function AboutHero() {
     return ( 
@@ -25,12 +26,13 @@ function AboutHero() {
                </div>
                {/* buttons ke liye  */}
                <div className="flex items-center gap-10 px-6">
-                <button className="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30">
-                    Get Started
-                </button>
-                <button className=" inline-flex items-center gap-2 rounded-full border border-slate-700 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-slate-800">
-                    Explore Features
-                </button>
+                <Link
+    to="/signup"
+    className=" text-3xl font-xl  inline-block px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/30"
+>
+    Get Started
+</Link>
+               
                </div>
              </div>
                {/* right div */}
