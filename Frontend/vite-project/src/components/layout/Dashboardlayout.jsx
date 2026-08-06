@@ -3,7 +3,7 @@ import TopNavbar from "../dashboard/TopNavbar";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-function DashboardLayout({ children }) {
+function Dashboardlayout({ children }) {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -42,4 +42,4 @@ function DashboardLayout({ children }) {
   );
 }
 
-export default DashboardLayout;
+export default Dashboardlayout;

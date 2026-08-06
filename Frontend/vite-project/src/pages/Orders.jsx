@@ -1,5 +1,5 @@
-import DashboardLayout from "../components/layout/DashboardLayout";
-import OrderList from "../components/order/OrderList";
+import DashboardLayout from "../components/layout/Dashboardlayout";
+import OrderList from "../components/Order/OrderList";
 import { useEffect, useState } from "react";
 import api from "../api/api";
 

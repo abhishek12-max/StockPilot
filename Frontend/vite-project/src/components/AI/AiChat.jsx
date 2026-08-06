@@ -8,7 +8,7 @@ import PortfolioCard from "./PortfolioCard";
 import FinanceCard from "./FinanceCard";
 import NewsCard from "./NewsCard";
 
-const AIChat = () => {
+const AiChat = () => {
 
   const [message, setMessage] = useState("");
 
@@ -305,4 +305,4 @@ const AIChat = () => {
   );
 };
 
-export default AIChat;
+export default AiChat;

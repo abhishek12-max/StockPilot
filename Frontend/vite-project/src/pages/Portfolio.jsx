@@ -1,6 +1,6 @@
-import DashboardLayout from "../components/layout/DashboardLayout";
+import DashboardLayout from "../components/layout/Dashboardlayout";
 import SummaryCard from "../components/dashboard/SummaryCard";
-import AllocationChart from "../components/portfolio/AllocationChart";
+import AllocationChart from "../components/Portfolio/AllocationChart";
 import HoldingsTable from "../components/Portfolio/HoldingTable";
 import {
   FiDollarSign,
