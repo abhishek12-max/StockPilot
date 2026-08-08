@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
 // Public Pages
-import Home from "./pages/Home";
 import Pricing from "./pages/Pricing";
 import Support from "./pages/Support";
 import Login from "./pages/Login";
@@ -14,6 +13,11 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import HowItWorks from "./pages/HowItWorks";
 
+// Route Components
+import HomeRoute from "./components/HomeRoute";
+import PublicRoute from "./components/PublicRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 // Protected Pages
 import Dashboard from "./pages/Dashboard";
 import Portfolio from "./pages/Portfolio";
@@ -22,30 +26,62 @@ import Orders from "./pages/Orders";
 import Watchlist from "./pages/WatchList";
 import Settings from "./pages/Settings";
 
-// Authentication
-import ProtectedRoute from "./components/ProtectedRoute";
-
 function App() {
   return (
     <Routes>
 
       {/* ================= PUBLIC ROUTES ================= */}
 
-      <Route path="/" element={<Home />} />
+      {/* Home */}
+      <Route
+        path="/"
+        element={<HomeRoute />}
+      />
 
-      <Route path="/how-it-works" element={<HowItWorks />} />
+      <Route
+        path="/how-it-works"
+        element={<HowItWorks />}
+      />
 
-      <Route path="/pricing" element={<Pricing />} />
+      <Route
+        path="/pricing"
+        element={<Pricing />}
+      />
 
-      <Route path="/support" element={<Support />} />
+      <Route
+        path="/support"
+        element={<Support />}
+      />
 
-      <Route path="/contact" element={<Contact />} />
+      <Route
+        path="/contact"
+        element={<Contact />}
+      />
 
-      <Route path="/login" element={<Login />} />
+      {/* ================= AUTH ROUTES ================= */}
 
-      <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
 
-      <Route path="/verify-otp" element={<Verifyotp />} />
+      <Route
+        path="/signup"
+        element={
+          <PublicRoute>
+            <Signup />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        path="/verify-otp"
+        element={<Verifyotp />}
+      />
 
       <Route
         path="/forget-password"
@@ -57,6 +93,8 @@ function App() {
         element={<Resetpassword />}
       />
 
+      {/* ================= LEGAL ROUTES ================= */}
+
       <Route
         path="/privacy"
         element={<PrivacyPolicy />}
@@ -66,7 +104,6 @@ function App() {
         path="/terms"
         element={<TermsConditions />}
       />
-
 
       {/* ================= PROTECTED ROUTES ================= */}
 
