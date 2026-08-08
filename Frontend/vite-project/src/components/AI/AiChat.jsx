@@ -17,7 +17,7 @@ const AiChat = () => {
   const [loading, setLoading] = useState(false);
 
   const [placeholder, setPlaceholder] = useState(
-    "Ask TradeX AI..."
+    "Ask StockPilot AI..."
   );
 
   const bottomRef = useRef(null);
@@ -79,7 +79,7 @@ const AiChat = () => {
 
       setMessage("");
 
-      setPlaceholder("Ask TradeX AI...");
+      setPlaceholder("Ask StockPilot AI...");
 
     }
 
@@ -196,7 +196,7 @@ const AiChat = () => {
       <div className="border-b border-slate-800 p-4">
 
         <h2 className="text-lg font-bold text-white">
-          🤖 TradeX AI
+          🤖 StockPilot AI
         </h2>
 
         <p className="mt-1 text-xs text-slate-400">

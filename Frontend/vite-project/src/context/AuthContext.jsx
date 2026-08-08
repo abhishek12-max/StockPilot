@@ -1,46 +1,46 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
 import api from "../api/api";
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
-
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function getProfile() {
+  // ===============================
+  // Get Logged-in User
+  // ===============================
 
-  try {
+  const getProfile = useCallback(async () => {
+    try {
+      const response = await api.get("/auth/profile");
 
-    console.log("GET PROFILE CALLED");
+      setUser(response.data.user);
 
-    const response = await api.get("/auth/profile");
-
-    setUser(response.data.user);
-
-  } catch (error) {
-
-    console.log("PROFILE ERROR:", error.response?.data);
-
-    // Agar login page par unauthorized hai to bas user null rakho.
-    if (error.response?.status === 401) {
+      return response.data.user;
+    } catch (error) {
       setUser(null);
-      return;
+
+      return null;
+    } finally {
+      setLoading(false);
     }
+  }, []);
 
-    setUser(null);
-
-  } finally {
-
-    setLoading(false);
-
-  }
-
-}
+  // ===============================
+  // Check Authentication on App Load
+  // ===============================
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [getProfile]);
 
   return (
     <AuthContext.Provider
@@ -55,6 +55,10 @@ function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+// ===============================
+// Custom Auth Hook
+// ===============================
 
 function useAuth() {
   return useContext(AuthContext);

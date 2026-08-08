@@ -3,7 +3,7 @@ const { query } = require("express-validator");
 const ALLOWED_SORT_FIELDS = [
   "companyName",
   "symbol",
-  "price",
+  "currentPrice",
   "createdAt",
 ];
 

@@ -3,19 +3,18 @@ const Stock = require("../models/stock.model");
 const getStocks = async (req, res, next) => {
   try {
     const {
-      keyword,
-      sort = "createdAt",
-      order = "desc",
+      keyword = "",
       page = 1,
       limit = 10,
+      sort = "companyName",
+      order = "asc",
     } = req.query;
 
-    const pageNumber = Number(page);
-    const limitNumber = Number(limit);
+    const query = {
+      isActive: true,
+    };
 
-    const query = {};
-
-    if (keyword) {
+    if (keyword.trim()) {
       query.$or = [
         {
           symbol: {
@@ -32,32 +31,25 @@ const getStocks = async (req, res, next) => {
       ];
     }
 
-    let sortOrder = -1;
+    const skip = (Number(page) - 1) * Number(limit);
 
-   if (order === "asc") {
-    sortOrder = 1;
-     }
+    const stocks = await Stock.find(query)
+      .sort({
+        [sort]: order === "asc" ? 1 : -1,
+      })
+      .skip(skip)
+      .limit(Number(limit));
 
-    const skip = (pageNumber - 1) * limitNumber;
+    const totalStocks = await Stock.countDocuments(query);
 
-    const [totalStocks, stocks] = await Promise.all([
-      Stock.countDocuments(query),
-
-      Stock.find(query)
-        .sort({ [sort]: sortOrder })
-        .skip(skip)
-        .limit(limitNumber),
-    ]);
-
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      message: "Stocks fetched successfully",
       stocks,
       pagination: {
-        page: pageNumber,
-        limit: limitNumber,
+        page: Number(page),
+        limit: Number(limit),
         totalStocks,
-        totalPages: Math.ceil(totalStocks / limitNumber),
+        totalPages: Math.ceil(totalStocks / limit),
       },
     });
   } catch (error) {

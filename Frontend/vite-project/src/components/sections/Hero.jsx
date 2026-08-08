@@ -1,139 +1,109 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Play ,ShieldCheck,Brain,Zap,LayoutDashboard} from "lucide-react";
-const Hero = () => {
-   const features = [
-  {
-    icon: Brain,
-    title: "AI Portfolio Analysis",
-    description: "Get personalized investment insights",
-    color: "text-purple-400",
-    bg: "bg-purple-600/10",
-  },
-  {
-    icon: Zap,
-    title: "Live Market Data",
-    description: "Real-time prices & updates",
-    color: "text-yellow-400",
-    bg: "bg-yellow-500/10",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Secure Authentication",
-    description: "Safe and reliable account protection",
-    color: "text-green-400",
-    bg: "bg-green-500/10",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "Interactive Dashboard",
-    description: "Track your investments easily",
-    color: "text-blue-400",
-    bg: "bg-blue-500/10",
-  },
-];
+import {
+  ArrowRight,
+  Play,
+  ShieldCheck,
+  Brain,
+  Zap,
+} from "lucide-react";
+import Hero3D from "../hero/Hero3D";
+
+function Hero() {
   return (
-      <section className="min-h-screen bg-slate-950 text-white pt-32">
-   
-   <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-16">
-
-    {/* Left */}
-    <div className="flex-1">
-
-      {/* Badge */}
-      <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2">
-        <span>✨</span>
-        <span className="text-2xl font-medium text-purple-300">
-          AI-Powered Stock Trading
-        </span>
+    <section className="relative overflow-hidden px-6 pt-2 pb-10 lg:px-8 lg:pt-4 lg:pb-12">
+      
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-[10%] top-[15%] h-72 w-72 rounded-full bg-purple-600/10 blur-3xl" />
+        <div className="absolute right-[10%] top-[20%] h-96 w-96 rounded-full bg-blue-600/10 blur-3xl" />
       </div>
 
-      {/* Heading */}
-      <h1 className="mt-8 text-5xl lg:text-7xl font-bold leading-tight">
-        Invest Smarter <br />
-        with AI
-      </h1>
-       
-       <p className="mt-6 max-w-xl text-lg text-slate-400 leading-8">
-          Build your portfolio with real-time market insights,
-           powerful analytics, and an intuitive trading experience.
-       </p>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-start lg:grid-cols-2 lg:gap-4">
 
-              <Link to="/signup"  className=" group inline-flex items-center gap-2 rounded-full bg-purple-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-purple-700 hover:scale-105">
-                  Get Started Free
-                  <ArrowRight size={18}  className="transition-transform duration-300 group-hover:translate-x-1"/>
-              </Link>
-
-             <button className=" inline-flex items-center gap-2 rounded-full border border-slate-700 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-slate-800">
-                Live Demo
-                <Play size={16}/>
-              </button>
-
-         </div>
-         <div className="mt-8 flex flex-wrap items-center gap-6">
-
-           <div className="flex items-center gap-2 text-slate-400">
-             <ShieldCheck size={18} className="text-green-400" />
-             <span className="text-sm">Secure Authentication</span>
-           </div>
-         
-           <div className="flex items-center gap-2 text-slate-400">
-             <Brain size={18} className="text-purple-400" />
-             <span className="text-sm">AI-Powered Insights</span>
-           </div>
-         
-           <div className="flex items-center gap-2 text-slate-400">
-             <Zap size={18} className="text-yellow-400" />
-             <span className="text-sm">Lightning Fast Experience</span>
-           </div>
-         
-         </div>
-  </div>
-
-    {/* Right */}
-    <div className="flex-1"> 
-
-
-      {/* card */}
-       <div  className="w-full max-w-lg rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl p-8">
-        {/* header */}
-        <div className="border-b border-slate-800 pb-5">
-          <h2  className="text-2xl font-bold text-white">Why TradeX?</h2>
-          <p className="mt-2 text-slate-400">Built for modern investors</p>
+        {/* ================= 3D IMAGE ================= */}
+        <div className="order-1 flex h-[210px] w-full items-start justify-center lg:order-2 lg:h-[500px] lg:justify-end mt-10">
+          <div className="h-full w-full max-w-[650px]">
+            <Hero3D />
+          </div>
         </div>
-    
-        {/* feature */}
-        <div>
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-                  return (
-                      <div key={index}  className=" group mt-6 flex items-start gap-4 rounded-xl p-3 transition-all duration-300 hover:bg-white/5">
-                        {/* Icon Box */}
-                    <div className={`rounded-lg p-2 ${feature.bg}`}>
-                           <Icon
-                             size={20}
-                              className={`${feature.color} transition-transform duration-300 group-hover:scale-110`}
-                           />
-                         </div>
-                        <div> 
-                      <h3 className="font-medium text-white">{feature.title}</h3>
-                      <p className="mt-1 text-sm text-slate-400">{feature.description}</p>
-                      </div>
-                      </div>
 
-              );
+        {/* ================= HERO CONTENT ================= */}
+        <div className="order-2 relative z-10 -mt-1 max-w-2xl lg:order-1 lg:mt-8">
 
-               })}
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2 mt-14">
+            <span>✦</span>
+
+            <span className="text-sm font-medium text-purple-300 sm:text-base">
+              AI-Powered Stock Trading
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h1 className="mt-6 text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
+            Invest Smarter
+            <br />
+            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-blue-400 bg-clip-text text-transparent">
+              with AI
+            </span>
+          </h1>
+
+          {/* Description */}
+          <p className="mt-5 max-w-xl text-base leading-7 text-slate-400 sm:text-lg">
+            Build your portfolio with real-time market insights,
+            powerful analytics, and an intuitive AI-powered trading
+            experience.
+          </p>
+
+          {/* Buttons */}
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+
+            <Link
+              to="/signup"
+              className="group inline-flex items-center gap-2 rounded-full bg-purple-600 px-6 py-3 font-medium text-white shadow-lg shadow-purple-600/20 transition-all duration-300 hover:scale-105 hover:bg-purple-700"
+            >
+              Get Started Free
+
+              <ArrowRight
+                size={18}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+
+            <button
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-slate-800"
+            >
+              Watch Demo
+              <Play size={16} />
+            </button>
+
+          </div>
+
+          {/* Trust Features */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+
+            <div className="flex items-center gap-2 text-sm text-slate-400">
+              <ShieldCheck size={17} className="text-green-400" />
+              <span>Secure Platform</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-slate-400">
+              <Brain size={17} className="text-purple-400" />
+              <span>AI Insights</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-slate-400">
+              <Zap size={17} className="text-yellow-400" />
+              <span>Real-time Data</span>
+            </div>
+
+          </div>
+
         </div>
-        
-       </div>  
 
-      
-    </div>
-
-  </div>
-</section>
-  )
+      </div>
+    </section>
+  );
 }
 
 export default Hero;

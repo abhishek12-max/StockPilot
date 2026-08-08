@@ -1,12 +1,53 @@
-const express= require("express");
-const router= express.Router();
-const authmiddleware= require("../middlewares/auth.middleware");
-const watchlistcontroller=require("../controllers/watchlist.controller");
-const {watchlistValidation, deleteWatchlistValidation}= require("../validators/watchlist.validator");
+const express = require("express");
+
+const router = express.Router();
+
+const authMiddleware = require("../middlewares/auth.middleware");
 const validationMiddleware = require("../middlewares/validation.middleware");
 
-router.post("/",authmiddleware,watchlistValidation,validationMiddleware,watchlistcontroller.addToWatchlist);
-router.get("/",authmiddleware,watchlistcontroller.getWatchlist);
-router.delete("/:stockId",authmiddleware,deleteWatchlistValidation,validationMiddleware,watchlistcontroller.deleteWatchlist);
+const {
+  addToWatchlist,
+  getWatchlist,
+  deleteWatchlist,
+} = require("../controllers/watchlist.controller");
 
-module.exports= router
+const {
+  addToWatchlistValidator,
+  deleteWatchlistValidator,
+} = require("../validators/watchlist.validator");
+
+// =========================
+// Add to Watchlist
+// =========================
+
+router.post(
+  "/",
+  authMiddleware,
+  addToWatchlistValidator,
+  validationMiddleware,
+  addToWatchlist
+);
+
+// =========================
+// Get Watchlist
+// =========================
+
+router.get(
+  "/",
+  authMiddleware,
+  getWatchlist
+);
+
+// =========================
+// Remove from Watchlist
+// =========================
+
+router.delete(
+  "/:stockId",
+  authMiddleware,
+  deleteWatchlistValidator,
+  validationMiddleware,
+  deleteWatchlist
+);
+
+module.exports = router;

@@ -1,11 +1,19 @@
-const express= require("express");
-const router= express.Router();
+const express = require("express");
+
+const router = express.Router();
+
 const authmiddleware = require("../middlewares/auth.middleware");
-const stockcontroller=require("../controllers/stock.controller");
-const validationMiddleware= require("../middlewares/validation.middleware");
+const validationMiddleware = require("../middlewares/validation.middleware");
+
+const { getStocks } = require("../controllers/stock.controller");
 const { getStocksValidator } = require("../validators/stock.validator");
 
+router.get(
+  "/",
+  authmiddleware,
+  getStocksValidator,
+  validationMiddleware,
+  getStocks
+);
 
-router.get("/",authmiddleware,getStocksValidator,validationMiddleware,stockcontroller.getStocks);
-
-module.exports=router
+module.exports = router;

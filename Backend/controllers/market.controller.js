@@ -2,28 +2,37 @@ const Stock = require("../models/stock.model");
 
 const getMarketStocks = async (req, res, next) => {
   try {
-
     const stocks = await Stock.find({
       isActive: true,
     });
 
+    const updates = [];
+
     for (const stock of stocks) {
+      // Random price change (-2% to +2%)
+      const percentage = (Math.random() * 4 - 2) / 100;
 
-      const percentage =
-        (Math.random() * 4 - 2) / 100;
+      const newPrice = Number(
+        (
+          stock.currentPrice *
+          (1 + percentage)
+        ).toFixed(2)
+      );
 
-      const newPrice =
-        Number(
-          (
-            stock.currentPrice *
-            (1 + percentage)
-          ).toFixed(2)
-        );
+      updates.push({
+        updateOne: {
+          filter: {
+            _id: stock._id,
+          },
+          update: {
+            currentPrice: newPrice,
+          },
+        },
+      });
+    }
 
-      stock.currentPrice = newPrice;
-
-      await stock.save();
-
+    if (updates.length > 0) {
+      await Stock.bulkWrite(updates);
     }
 
     const updatedStocks = await Stock.find({
@@ -33,19 +42,12 @@ const getMarketStocks = async (req, res, next) => {
     });
 
     return res.status(200).json({
-
       success: true,
-
       message: "Market fetched successfully.",
-
       stocks: updatedStocks,
-
     });
-
   } catch (error) {
-
     next(error);
-
   }
 };
 

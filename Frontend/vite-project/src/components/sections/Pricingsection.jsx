@@ -1,241 +1,370 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Check, X } from "lucide-react";
+
 import api from "../../api/api";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
 function Pricingsection() {
-
   const [loading, setLoading] = useState(false);
 
- const { user, getProfile } = useAuth();
-const navigate = useNavigate();
+  const { user, getProfile } = useAuth();
+  const navigate = useNavigate();
+
   const handlePayment = async (plan) => {
-      
     try {
-           
+      // User login check
+      if (!user) {
+        alert("Please login first to upgrade your plan.");
+        navigate("/login");
+        return;
+      }
+
+      // Already PRO
+      if (user.plan === "PRO") {
+        alert("You are already on the PRO plan.");
+        return;
+      }
+
+      // Razorpay SDK check
+      if (!window.Razorpay) {
+        alert("Payment system is not loaded. Please try again.");
+        return;
+      }
+
       setLoading(true);
-      
-       if (!user) {
 
-  alert("Please login first to upgrade your plan.");
+      // =========================
+      // CREATE RAZORPAY ORDER
+      // =========================
 
-  navigate("/login");
-
-  return;
-
-}
-
-      const { data } = await api.post("/payment/create-order", {
-        plan,
-      });
+      const { data } = await api.post(
+        "/payment/create-order",
+        {
+          plan,
+        }
+      );
 
       const options = {
-
         key: data.key,
 
         amount: data.order.amount,
 
         currency: data.order.currency,
 
-        name: "TradeX",
+        name: "StockPilot",
 
         description: `${plan} Plan Subscription`,
 
         order_id: data.order.id,
 
         prefill: {
-          name: "",
-          email: "",
+          name: user.fullname || "",
+          email: user.email || "",
         },
 
         theme: {
           color: "#7C3AED",
         },
 
-       handler: async function (response) {
+        // =========================
+        // PAYMENT SUCCESS
+        // =========================
 
-  try {
+        handler: async function (response) {
+          try {
+            const verifyResponse = await api.post(
+              "/payment/verify-payment",
+              {
+                ...response,
+                plan,
+              }
+            );
 
-    const verify = await api.post("/payment/verify-payment", {
-      ...response,
-      plan,
-    });
+            alert(verifyResponse.data.message);
 
-    alert(verify.data.message);
+            // Get latest user data
+            await getProfile();
 
-    // User ka latest plan fetch karo
-    await getProfile();
-
-    // AI page pe bhejo
-    navigate("/dashboard");
-
-  } catch (error) {
-
-    console.log(error.response?.data || error);
-
-    alert("Payment verification failed.");
-
-  }
-
-},
-
-        modal: {
-
-          ondismiss: function () {
-
-            console.log("Payment Cancelled");
-
+            // Go to dashboard
             navigate("/dashboard");
 
-          },
+          } catch (error) {
+            console.error(
+              "Payment Verification Error:",
+              error.response?.data || error
+            );
 
+            alert(
+              error.response?.data?.message ||
+                "Payment verification failed."
+            );
+          }
         },
 
+        // =========================
+        // PAYMENT CLOSED
+        // =========================
+
+        modal: {
+          ondismiss: function () {
+            console.log("Payment cancelled by user.");
+          },
+        },
       };
 
+      // Open Razorpay
       const razorpay = new window.Razorpay(options);
 
       razorpay.open();
 
     } catch (error) {
+      console.error(
+        "Payment Error:",
+        error.response?.data || error
+      );
 
-      console.log(error.response?.data || error);
-
+      alert(
+        error.response?.data?.message ||
+          "Unable to start payment."
+      );
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   return (
+    <section className="px-6 py-8">
 
-    <section>
-
-      {/* Back Button */}
+      {/* =========================
+          BACK BUTTON
+      ========================= */}
 
       <div className="mb-8">
-
         <button
+          type="button"
           onClick={() => navigate("/dashboard")}
-          className="flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2 text-slate-300 transition hover:border-purple-500 hover:text-white"
+          className="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2 text-slate-300 transition hover:border-purple-500 hover:text-white"
         >
           <ArrowLeft size={18} />
+
           Back to Dashboard
         </button>
-
       </div>
 
-      {/* Heading */}
+      {/* =========================
+          HEADER
+      ========================= */}
 
-      <div className="text-center space-y-5">
+      <div className="mx-auto max-w-2xl text-center">
 
-        <h1 className="text-3xl font-bold text-white">
-          💳 Pricing
+        <span className="inline-flex rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-2 text-sm font-medium text-purple-300">
+          StockPilot Plans
+        </span>
+
+        <h1 className="mt-5 text-4xl font-bold text-white">
+          Choose Your Plan
         </h1>
 
-        <p className="text-lg leading-tight tracking-tight text-slate-400">
-          Choose the perfect plan for your trading journey.
-          Simple pricing with no hidden charges.
+        <p className="mt-4 leading-7 text-slate-400">
+          Start for free and upgrade to PRO when you need
+          advanced AI-powered trading insights.
         </p>
-
       </div>
 
-      {/* Cards */}
+      {/* =========================
+          PRICING CARDS
+      ========================= */}
 
-      <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
 
-        {/* Free */}
+        {/* =========================
+            FREE PLAN
+        ========================= */}
 
-        <div className="w-full rounded-3xl border border-slate-700 bg-slate-900 p-6">
+        <div
+          className={`rounded-3xl border p-8 ${
+            user?.plan === "FREE"
+              ? "border-white/20 bg-white/[0.04]"
+              : "border-white/10 bg-white/[0.02]"
+          }`}
+        >
+          <div className="flex h-full flex-col">
 
-          <div className="space-y-8 text-center">
+            <div>
+              <p className="text-sm font-medium text-slate-400">
+                BASIC
+              </p>
 
-            <h3 className="text-3xl font-bold text-white">
-              BASIC FREE
-            </h3>
+              <h2 className="mt-2 text-3xl font-bold text-white">
+                Free
+              </h2>
 
-            <ul className="space-y-4">
+              <p className="mt-3 text-slate-400">
+                Everything you need to get started.
+              </p>
 
-              <li className="text-slate-300">✔ Watchlist</li>
+              <div className="mt-6">
+                <span className="text-4xl font-bold text-white">
+                  ₹0
+                </span>
 
-              <li className="text-slate-300">✔ Market</li>
+                <span className="ml-2 text-slate-500">
+                  / forever
+                </span>
+              </div>
+            </div>
 
-              <li className="text-slate-300">✔ Portfolio</li>
+            {/* Features */}
 
-              <li className="text-slate-300">✖ AI Assistant</li>
+            <ul className="mt-8 space-y-4">
+
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check
+                  size={18}
+                  className="text-emerald-400"
+                />
+                Watchlist
+              </li>
+
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check
+                  size={18}
+                  className="text-emerald-400"
+                />
+                Market Data
+              </li>
+
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check
+                  size={18}
+                  className="text-emerald-400"
+                />
+                Portfolio
+              </li>
+
+              <li className="flex items-center gap-3 text-slate-500">
+                <X
+                  size={18}
+                  className="text-slate-600"
+                />
+                AI Assistant
+              </li>
 
             </ul>
 
-           {user ? (
-  <button
-    disabled
-    className="rounded-full bg-slate-700 px-6 py-2 text-white cursor-default"
-  >
-    Current Plan
-  </button>
-) : (
-  <Link to="/signup">
-    <button className="rounded-full bg-purple-600 px-6 py-2 text-white transition hover:scale-105 hover:bg-purple-700">
-      Get Started
-    </button>
-  </Link>
-)}
-
-          </div>
-
-        </div>
-
-        {/* Pro */}
-
-        <div className="mt-10 w-full rounded-3xl border border-purple-600 bg-slate-900 p-6 lg:mt-0">
-
-          <div className="space-y-8 text-center">
-
-            <h3 className="text-3xl font-bold text-white">
-              PRO ⭐ ₹299/mo
-            </h3>
-
-            <ul className="space-y-4">
-
-              <li className="text-slate-300">✔ Everything</li>
-
-              <li className="text-slate-300">✔ AI Assistant</li>
-
-              <li className="text-slate-300">✔ Alerts</li>
-
-              <li className="text-slate-300">✔ Analytics</li>
-
-            </ul>
+            {/* Current Plan */}
 
             <button
-  onClick={() => handlePayment("PRO")}
-  disabled={loading || user?.plan === "PRO"}
-  className="rounded-full bg-purple-600 px-6 py-2 text-white transition hover:scale-105 hover:bg-purple-700 disabled:bg-slate-700 disabled:cursor-default"
->
-
-             {user?.plan === "PRO"
-  ? "Current Plan"
-  : loading
-  ? "Loading..."
-  : "Upgrade"}
-
+              type="button"
+              disabled
+              className="mt-auto rounded-full bg-slate-800 px-6 py-3 text-sm font-semibold text-slate-400"
+             >
+              {user?.plan === "FREE"
+                ? "Current Plan"
+                : "Free Plan"}
             </button>
 
           </div>
-
         </div>
 
-       
+        {/* =========================
+            PRO PLAN
+        ========================= */}
+
+        <div className="relative rounded-3xl border border-purple-500/50 bg-purple-500/[0.05] p-8 shadow-xl shadow-purple-500/10">
+
+          {/* Popular */}
+
+          <div className="absolute right-6 top-6 rounded-full bg-purple-600 px-3 py-1 text-xs font-semibold text-white">
+            PRO
+          </div>
+
+          <div className="flex h-full flex-col">
+
+            <div>
+              <p className="text-sm font-medium text-purple-400">
+                PREMIUM
+              </p>
+
+              <h2 className="mt-2 text-3xl font-bold text-white">
+                Pro
+              </h2>
+
+              <p className="mt-3 text-slate-400">
+                Unlock the full TradeX experience.
+              </p>
+
+              <div className="mt-6">
+                <span className="text-4xl font-bold text-white">
+                  ₹299
+                </span>
+
+                <span className="ml-2 text-slate-500">
+                  / month
+                </span>
+              </div>
+            </div>
+
+            {/* Features */}
+
+            <ul className="mt-8 space-y-4">
+
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check
+                  size={18}
+                  className="text-purple-400"
+                />
+                Everything in Free
+              </li>
+
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check
+                  size={18}
+                  className="text-purple-400"
+                />
+                AI Assistant
+              </li>
+
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check
+                  size={18}
+                  className="text-purple-400"
+                />
+                Smart Alerts
+              </li>
+
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check
+                  size={18}
+                  className="text-purple-400"
+                />
+                Advanced Analytics
+              </li>
+
+            </ul>
+
+            {/* Upgrade */}
+
+            <button
+              type="button"
+              onClick={() => handlePayment("PRO")}
+              disabled={loading || user?.plan === "PRO"}
+              className="mt-auto rounded-full bg-purple-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-purple-500 hover:scale-[1.02] disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
+            >
+              {user?.plan === "PRO"
+                ? "Current Plan"
+                : loading
+                ? "Processing..."
+                : "Upgrade to PRO"}
+            </button>
+
+          </div>
+        </div>
 
       </div>
-
     </section>
-
   );
-
 }
 
 export default Pricingsection;

@@ -18,8 +18,8 @@ const stockSchema = new mongoose.Schema(
 
     exchange: {
       type: String,
+      enum: ["NASDAQ", "NYSE", "NSE", "BSE"],
       required: true,
-      trim: true,
     },
 
     industry: {
@@ -32,6 +32,17 @@ const stockSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
+    },
+
+    previousClose: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    logo: {
+      type: String,
+      default: "",
     },
 
     isActive: {

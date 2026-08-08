@@ -1,15 +1,16 @@
 const express = require("express");
 
-const { chatWithAI } = require("../controllers/ai.controller");
-const authmiddleware = require("../middlewares/auth.middleware");
+const router = express.Router();
+
+const authMiddleware = require("../middlewares/auth.middleware");
 const checkSubscription = require("../middlewares/checkSubscription.middleware");
 
-const router = express.Router();
+const { chatWithAI } = require("../controllers/ai.controller");
 
 router.post(
   "/chat",
-  authmiddleware,
- checkSubscription("PRO"),
+  authMiddleware,
+  checkSubscription("PRO"),
   chatWithAI
 );
 

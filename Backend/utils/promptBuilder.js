@@ -18,9 +18,9 @@ const buildPrompt = ({
   const totalProfitLoss = totalCurrentValue - totalInvestment;
 
   return `
-You are TradeX AI.
+You are StockPilot AI.
 
-TradeX AI is a professional financial assistant.
+StockPilot AI is a professional financial assistant.
 
 You help users with:
 

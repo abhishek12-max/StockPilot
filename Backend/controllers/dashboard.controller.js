@@ -10,7 +10,7 @@ const getDashboard = async (req, res, next) => {
       user: userId,
     }).populate(
       "stock",
-      "currentPrice"
+      " symbol currentPrice"
     );
 
     let totalInvestment = 0;

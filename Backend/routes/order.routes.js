@@ -1,16 +1,50 @@
-const express= require("express");
-const router= express.Router();
+const express = require("express");
 
-const authmiddleware = require("../middlewares/auth.middleware");
-const { ordervalidation } = require("../validators/order.validator");
-const validationMiddleware= require("../middlewares/validation.middleware");
-const ordercontroller= require("../controllers/order.controller");
+const router = express.Router();
 
-router.post("/",authmiddleware,ordervalidation,validationMiddleware,ordercontroller.placeOrder);
-router.get("/recent",authmiddleware,ordercontroller.recentOrder);
-router.get(
-   "/",
-   authmiddleware,
-   ordercontroller.getOrders
+const authMiddleware = require("../middlewares/auth.middleware");
+const validationMiddleware = require("../middlewares/validation.middleware");
+
+const {
+  placeOrder,
+  recentOrder,
+  getOrders,
+} = require("../controllers/order.controller");
+
+const {
+  orderValidator,
+} = require("../validators/order.validator");
+
+// =========================
+// Place Order
+// =========================
+
+router.post(
+  "/",
+  authMiddleware,
+  orderValidator,
+  validationMiddleware,
+  placeOrder
 );
-module.exports=router;
+
+// =========================
+// Recent Orders
+// =========================
+
+router.get(
+  "/recent",
+  authMiddleware,
+  recentOrder
+);
+
+// =========================
+// All Orders
+// =========================
+
+router.get(
+  "/",
+  authMiddleware,
+  getOrders
+);
+
+module.exports = router;

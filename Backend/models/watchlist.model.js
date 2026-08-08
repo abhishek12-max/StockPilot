@@ -1,4 +1,5 @@
-const mongoose= require("mongoose");
+const mongoose = require("mongoose");
+
 const watchlistSchema = new mongoose.Schema(
   {
     user: {
@@ -18,11 +19,15 @@ const watchlistSchema = new mongoose.Schema(
   }
 );
 
-  watchlistSchema.index(
-  { user: 1, stock: 1 },
-  { unique: true }
+// Ek user ek hi stock ko sirf ek baar watchlist me add kar sakta hai
+watchlistSchema.index(
+  {
+    user: 1,
+    stock: 1,
+  },
+  {
+    unique: true,
+  }
 );
 
-const Watchlist = mongoose.model("Watchlist", watchlistSchema);
-
-module.exports= Watchlist
+module.exports = mongoose.model("Watchlist", watchlistSchema);

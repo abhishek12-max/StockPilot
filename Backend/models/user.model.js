@@ -19,13 +19,13 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
     },
-     refreshToken: {
-    type: String,
-    default: ""
+
+    refreshToken: {
+      type: String,
+      default: "",
     },
-    
+
     isVerified: {
       type: Boolean,
       default: false,
@@ -33,24 +33,25 @@ const userSchema = new mongoose.Schema(
 
     otp: {
       type: String,
-      default: null,
     },
 
     otpExpiry: {
       type: Date,
-      default: null,
     },
-   plan: {
-  type: String,
-  enum: ["FREE", "PRO"],
-  default: "FREE",
-},
+
+    plan: {
+      type: String,
+      enum: ["FREE", "PRO"],
+      default: "FREE",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const userModel = mongoose.model("User", userSchema);
 
-module.exports = userModel;
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

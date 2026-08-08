@@ -1,109 +1,37 @@
+const dns = require("node:dns");
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+
+const connectDB = require("../config/db");
 const Stock = require("../models/stock.model");
+const stocks = require("./stocks");
 
 dotenv.config();
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(async () => {
+const seedDatabase = async () => {
+  try {
+    await connectDB();
 
-    console.log("MongoDB Connected");
+    console.log("🌱 Seeding Stocks...");
 
+    // Purane stocks delete
     await Stock.deleteMany();
 
-    await Stock.insertMany([
-      {
-        symbol: "AAPL",
-        companyName: "Apple Inc.",
-        exchange: "NASDAQ",
-        industry: "Technology",
-        currentPrice: 308.91,
-        isActive: true,
-      },
-      {
-        symbol: "MSFT",
-        companyName: "Microsoft",
-        exchange: "NASDAQ",
-        industry: "Technology",
-        currentPrice: 464.72,
-        isActive: true,
-      },
-      {
-        symbol: "TSLA",
-        companyName: "Tesla",
-        exchange: "NASDAQ",
-        industry: "Automobile",
-        currentPrice: 311.21,
-        isActive: true,
-      },
-      {
-        symbol: "NVDA",
-        companyName: "NVIDIA",
-        exchange: "NASDAQ",
-        industry: "Semiconductor",
-        currentPrice: 200.75,
-        isActive: true,
-      },
-      {
-        symbol: "AMZN",
-        companyName: "Amazon",
-        exchange: "NASDAQ",
-        industry: "E-Commerce",
-        currentPrice: 271.58,
-        isActive: true,
-      },
-      {
-        symbol: "GOOGL",
-        companyName: "Alphabet Inc.",
-        exchange: "NASDAQ",
-        industry: "Technology",
-        currentPrice: 356.13,
-        isActive: true,
-      },
-      {
-        symbol: "META",
-        companyName: "Meta",
-        exchange: "NASDAQ",
-        industry: "Technology",
-        currentPrice: 712.25,
-        isActive: true,
-      },
-      {
-        symbol: "NFLX",
-        companyName: "Netflix",
-        exchange: "NASDAQ",
-        industry: "Entertainment",
-        currentPrice: 1245.45,
-        isActive: true,
-      },
-      {
-        symbol: "TCS",
-        companyName: "Tata Consultancy Services",
-        exchange: "NSE",
-        industry: "IT Services",
-        currentPrice: 3520.75,
-        isActive: true,
-      },
-      {
-        symbol: "INFY",
-        companyName: "Infosys",
-        exchange: "NSE",
-        industry: "IT Services",
-        currentPrice: 1625.30,
-        isActive: true,
-      },
-    ]);
+    // Naye stocks insert
+    await Stock.insertMany(stocks);
 
-    console.log("Stocks Seeded Successfully");
+    console.log("✅ Stocks Seeded Successfully");
 
-    process.exit();
+    await mongoose.connection.close();
 
-  })
-  .catch((err) => {
-
-    console.log(err);
+    process.exit(0);
+  } catch (error) {
+    console.error("❌ Seeding Failed:", error.message);
 
     process.exit(1);
+  }
+};
 
-  });
+seedDatabase();

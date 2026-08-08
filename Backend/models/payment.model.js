@@ -39,6 +39,14 @@ const paymentSchema = new mongoose.Schema(
       enum: ["SUCCESS", "FAILED"],
       default: "SUCCESS",
     },
+    currency: {
+  type: String,
+  default: "INR",
+},
+paymentMethod: {
+  type: String,
+  default: "Razorpay",
+},
    
   },
   {

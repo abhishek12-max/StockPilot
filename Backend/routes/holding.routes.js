@@ -1,9 +1,17 @@
-const express= require("express")
-const router= express.Router();
-const authmiddleware= require("../middlewares/auth.middleware");
-const holdingcontroller= require("../controllers/holding.controller");
+const express = require("express");
 
-router.get("/",authmiddleware,holdingcontroller.getHolding);
+const router = express.Router();
 
+const authMiddleware = require("../middlewares/auth.middleware");
 
-module.exports=router
+const {
+  getHolding,
+} = require("../controllers/holding.controller");
+
+router.get(
+  "/",
+  authMiddleware,
+  getHolding
+);
+
+module.exports = router;

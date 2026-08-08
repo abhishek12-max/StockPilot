@@ -5,49 +5,56 @@ const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.response.use(
+// ===============================
+// Response Interceptor
+// ===============================
 
-  (response) => response,
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
 
   async (error) => {
-
     const originalRequest = error.config;
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
-
-      if (
-        originalRequest.url === "/auth/login" ||
-        originalRequest.url === "/auth/register" ||
-        originalRequest.url === "/auth/refresh-token"
-      ) {
-        return Promise.reject(error);
-      }
-
-      originalRequest._retry = true;
-
-      try {
-
-        await api.post("/auth/refresh-token");
-
-        return api(originalRequest);
-
-      } catch (refreshError) {
-
-        console.log("Refresh Token Expired");
-
-        return Promise.reject(refreshError);
-
-      }
-
+    // No response or request already retried
+    if (!error.response || originalRequest?._retry) {
+      return Promise.reject(error);
     }
 
-    return Promise.reject(error);
+    // Only handle unauthorized requests
+    if (error.response.status !== 401) {
+      return Promise.reject(error);
+    }
 
+    // Don't refresh these auth requests
+    const publicAuthRoutes = [
+      "/auth/login",
+      "/auth/register",
+      "/auth/refresh-token",
+    ];
+
+    if (publicAuthRoutes.includes(originalRequest.url)) {
+      return Promise.reject(error);
+    }
+
+    originalRequest._retry = true;
+
+    try {
+      // Get a new access token
+      await api.post("/auth/refresh-token");
+
+      // Retry original request
+      return api(originalRequest);
+    } catch (refreshError) {
+      console.error(
+        "Refresh token failed:",
+        refreshError.response?.data || refreshError.message
+      );
+
+      return Promise.reject(refreshError);
+    }
   }
-
 );
 
 export default api;

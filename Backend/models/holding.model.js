@@ -27,6 +27,10 @@ const holdingSchema = new mongoose.Schema(
       required: true,
       min: 0.01,
     },
+    investedAmount: {
+  type: Number,
+  default: 0,
+},
   },
   {
     timestamps: true,

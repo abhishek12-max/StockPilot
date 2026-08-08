@@ -1,4 +1,5 @@
 const express = require("express");
+
 const router = express.Router();
 
 const {
@@ -20,10 +21,11 @@ const {
   loginValidator,
   forgetPasswordValidator,
   resetPasswordValidator,
+  resendOtpValidator,
   updateProfileValidator,
 } = require("../validators/auth.validator");
 
-const authmiddleware = require("../middlewares/auth.middleware");
+const authMiddleware = require("../middlewares/auth.middleware");
 const validationMiddleware = require("../middlewares/validation.middleware");
 
 // ================= AUTH =================
@@ -36,7 +38,7 @@ router.post(
 );
 
 router.post(
-  "/verify-Otp",
+  "/verify-otp",
   verifyOtpValidator,
   validationMiddleware,
   verifyOtp
@@ -65,6 +67,8 @@ router.post(
 
 router.post(
   "/resend-otp",
+  resendOtpValidator,
+  validationMiddleware,
   resendOtp
 );
 
@@ -77,13 +81,13 @@ router.post(
 
 router.get(
   "/profile",
-  authmiddleware,
+  authMiddleware,
   me
 );
 
 router.patch(
   "/profile",
-  authmiddleware,
+  authMiddleware,
   updateProfileValidator,
   validationMiddleware,
   updateProfile
@@ -93,7 +97,7 @@ router.patch(
 
 router.post(
   "/logout",
-  authmiddleware,
+  authMiddleware,
   logout
 );
 
