@@ -1,142 +1,129 @@
 # 🚀 StockPilot
 
-StockPilot is a full-stack AI-powered stock trading and portfolio management platform built with the MERN stack.
+### AI-Powered Stock Trading & Portfolio Management Platform
 
-It provides users with market data, stock trading simulation, portfolio tracking, watchlists, order management, AI-powered financial insights, and a PRO subscription system using Razorpay.
+StockPilot is a full-stack MERN application that allows users to explore market data, simulate stock trading, manage portfolios and watchlists, track orders, and get AI-powered financial insights.
+
+The platform also includes a PRO subscription system powered by Razorpay.
 
 ---
 
-## ✨ Features
+## 🌐 Live Demo
 
-### 📈 Stock Market
+🚀 **Live Website:**  
+https://stock-pilot-silk.vercel.app
 
-- Browse and search stocks
+🔧 **Backend API:**  
+https://stockpilot-vnph.onrender.com
+
+---
+
+## 📸 About StockPilot
+
+StockPilot is designed as a modern stock trading platform with a focus on:
+
+- Real-time market experience
+- Portfolio management
+- Stock trading simulation
+- AI-powered financial assistance
+- Secure authentication
+- Subscription-based premium features
+- Responsive modern UI
+- Interactive Three.js landing page
+
+---
+
+# ✨ Features
+
+## 🔐 Authentication
+
+- User Registration
+- Email OTP Verification
+- Login / Logout
+- JWT Authentication
+- Access Token
+- Refresh Token
+- HTTP-only Cookies
+- Protected Routes
+- Password Hashing using bcrypt
+- Subscription-based authorization
+
+---
+
+## 📈 Market
+
+Users can:
+
+- Browse stocks
+- Search stocks
 - View current stock prices
-- View company and market information
-- Track market movements
+- View company information
+- Track market data
 
-### 💰 Trading
+---
 
-- Buy and sell stocks
-- Market orders
-- Automatic holding updates after completed orders
-- Order history
-- Portfolio profit/loss calculations
+## 💰 Stock Trading
 
-### 💼 Portfolio
+StockPilot provides a simulated trading system where users can:
 
-- Total investment
-- Current portfolio value
-- Profit/Loss
-- Holdings overview
-- Portfolio statistics
+- Buy stocks
+- Sell stocks
+- Place market orders
+- Track order history
+- Automatically update holdings
+- Calculate portfolio profit/loss
 
-### ⭐ Watchlist
+---
+
+## 💼 Portfolio Management
+
+Users can monitor:
+
+- Total Investment
+- Current Portfolio Value
+- Profit / Loss
+- Individual Holdings
+- Average Buying Price
+- Current Stock Price
+- Portfolio Performance
+
+---
+
+## ⭐ Watchlist
+
+Users can:
 
 - Add stocks to watchlist
 - Remove stocks from watchlist
-- Track preferred stocks
-
-### 🤖 StockPilot AI
-
-PRO users can use the AI-powered financial assistant for:
-
-- 📊 Portfolio analysis
-- 📈 Stock analysis
-- ⚠️ Portfolio risk analysis
-- 📚 Finance concepts
-- 📰 Market news
-- 💡 Investing guidance
-
-AI responses are returned as structured JSON and rendered through dedicated React UI cards.
-
-### 💳 PRO Subscription
-
-- Free plan
-- PRO plan — ₹299/month
-- Razorpay checkout
-- Secure payment verification
-- Automatic plan upgrade after successful payment
-
-### 🔐 Authentication
-
-- User registration
-- Email OTP verification
-- Login/logout
-- JWT access tokens
-- JWT refresh tokens
-- HTTP-only cookies
-- Protected routes
-- Subscription-based authorization
-- Password hashing with bcrypt
+- Track selected stocks
 
 ---
 
-## 🛠️ Tech Stack
+# 🤖 StockPilot AI
 
-### Frontend
+StockPilot includes an AI-powered financial assistant available to PRO users.
 
-- React
-- React Router
-- Tailwind CSS
-- Axios
-- Lucide React
-- React Three Fiber
-- Three.js
-- Vite
+The AI can help with:
 
-### Backend
+### 📊 Portfolio Analysis
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT
-- bcrypt
-- Express Validator
-- Cookie Parser
-- CORS
+Analyze the user's:
 
-### AI & Payments
+- Investments
+- Holdings
+- Profit/Loss
+- Risk
+- Diversification
+- Best performers
+- Worst performers
 
-- Google Gemini API
-- Razorpay
+### 📈 Stock Analysis
 
-### Other
-
-- Nodemailer / Resend
-- Git & GitHub
-
----
-
-## 🏗️ Project Structure
+Users can ask questions such as:
 
 ```text
-StockPilot/
-│
-├── Frontend/
-│   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   └── App.jsx
-│   │
-│   ├── public/
-│   ├── package.json
-│   └── index.html
-│
-├── Backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middlewares/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── seed/
-│   ├── utils/
-│   ├── app.js
-│   ├── server.js
-│   └── package.json
-│
-└── README.md
+Should I buy TCS?
+
+Analyze Reliance.
+
+Should I invest in Apple?
