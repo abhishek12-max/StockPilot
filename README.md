@@ -11,7 +11,7 @@ The platform also includes a PRO subscription system powered by Razorpay.
 ## 🌐 Live Demo
 
 🚀 **Live Website:**  
-https://stock-pilot-silk.vercel.app
+https://stockpilot.codeabhi.in
 
 🔧 **Backend API:**  
 https://stockpilot-vnph.onrender.com
