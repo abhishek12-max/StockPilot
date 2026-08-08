@@ -2,7 +2,9 @@
 
 ### AI-Powered Stock Trading & Portfolio Management Platform
 
-StockPilot is a full-stack MERN application that allows users to explore market data, simulate stock trading, manage portfolios and watchlists, track orders, and get AI-powered financial insights.
+StockPilot is a full-stack MERN application that provides a realistic stock trading and portfolio management experience.
+
+Users can explore market data, simulate stock trading, manage portfolios and watchlists, track orders, and get AI-powered financial insights.
 
 The platform also includes a PRO subscription system powered by Razorpay.
 
@@ -14,7 +16,7 @@ The platform also includes a PRO subscription system powered by Razorpay.
 https://stockpilot.codeabhi.in
 
 🔧 **Backend API:**  
-https://stockpilot-vnph.onrender.com
+https://api.codeabhi.in
 
 ---
 
@@ -22,20 +24,23 @@ https://stockpilot-vnph.onrender.com
 
 StockPilot is designed as a modern stock trading platform with a focus on:
 
-- Real-time market experience
-- Portfolio management
-- Stock trading simulation
-- AI-powered financial assistance
-- Secure authentication
-- Subscription-based premium features
-- Responsive modern UI
-- Interactive Three.js landing page
+- 📈 Stock market experience
+- 💰 Stock trading simulation
+- 💼 Portfolio management
+- ⭐ Watchlist management
+- 🤖 AI-powered financial assistance
+- 🔐 Secure authentication
+- 💳 PRO subscription system
+- 📱 Responsive modern UI
+- 🌌 Interactive Three.js landing page
 
 ---
 
 # ✨ Features
 
 ## 🔐 Authentication
+
+StockPilot provides a secure authentication system including:
 
 - User Registration
 - Email OTP Verification
@@ -46,7 +51,7 @@ StockPilot is designed as a modern stock trading platform with a focus on:
 - HTTP-only Cookies
 - Protected Routes
 - Password Hashing using bcrypt
-- Subscription-based authorization
+- Subscription-based Authorization
 
 ---
 
@@ -64,7 +69,7 @@ Users can:
 
 ## 💰 Stock Trading
 
-StockPilot provides a simulated trading system where users can:
+StockPilot provides a simulated stock trading system where users can:
 
 - Buy stocks
 - Sell stocks
@@ -96,6 +101,7 @@ Users can:
 - Add stocks to watchlist
 - Remove stocks from watchlist
 - Track selected stocks
+- Monitor stocks they are interested in
 
 ---
 
@@ -103,19 +109,19 @@ Users can:
 
 StockPilot includes an AI-powered financial assistant available to PRO users.
 
-The AI can help with:
+The AI assistant can provide insights related to portfolios and stocks.
 
 ### 📊 Portfolio Analysis
 
-Analyze the user's:
+The AI can analyze:
 
 - Investments
 - Holdings
 - Profit/Loss
 - Risk
 - Diversification
-- Best performers
-- Worst performers
+- Best performing stocks
+- Worst performing stocks
 
 ### 📈 Stock Analysis
 
@@ -128,16 +134,90 @@ Analyze Reliance.
 
 Should I invest in Apple?
 
+Analyze my portfolio.
+
+What are the best performing stocks in my portfolio?
+
+
+
+
 ---
-## 👨‍💻 Author
 
-**Abhishek Panwar**
+# 🛠️ Tech Stack
 
+## Frontend
+
+- React.js
+- Vite
+- Tailwind CSS
+- React Router
+- Axios
+- Three.js
+- React Three Fiber
+- Lucide React
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+- Nodemailer
+- Express Validator
+- Cookie Parser
+- CORS
+
+## APIs & Services
+
+- Razorpay
+- AI API
+- Market Data API
+- Email OTP Service
+
+---
+
+# 🔒 Security
+
+StockPilot implements several security practices including:
+
+- JWT-based authentication
+- Access & Refresh Token architecture
+- HTTP-only cookies
+- Secure cookies in production
+- Password hashing using bcrypt
+- Email OTP verification
+- Protected API routes
+- CORS configuration
+- Subscription-based authorization
+
+---
+
+# 📁 Project Structure
+
+```text
+StockPilot/
+│
+├── Backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middlewares/
+│   ├── validators/
+│   ├── config/
+│   └── server.js
+│
+└── Frontend/
+    └── vite-project/
+        ├── src/
+        ├── public/
+        ├── package.json
+        ├── vite.config.js
+        └── vercel.json
+
+---
+        
+# 👨‍💻 Author
+## Abhishek Panwar
 Full Stack Developer | MERN Stack Developer
-
-🔗 GitHub: https://github.com/abhishek12-max
-🌐 Portfolio: https://codeabhi.in
-
----
-
-⭐ If you found this project useful, consider giving it a star!
