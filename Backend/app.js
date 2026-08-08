@@ -30,6 +30,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://stock-pilot-silk.vercel.app",
+      "https://stockpilot.codeabhi.in",
     ],
     credentials: true,
   })
