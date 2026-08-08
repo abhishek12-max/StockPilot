@@ -29,7 +29,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://trade-x-khaki.vercel.app",
+      "https://stock-pilot-silk.vercel.app",
     ],
     credentials: true,
   })
