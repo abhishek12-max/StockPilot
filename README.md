@@ -127,3 +127,17 @@ Should I buy TCS?
 Analyze Reliance.
 
 Should I invest in Apple?
+
+---
+## 👨‍💻 Author
+
+**Abhishek Panwar**
+
+Full Stack Developer | MERN Stack Developer
+
+🔗 GitHub: https://github.com/abhishek12-max
+🌐 Portfolio: https://codeabhi.in
+
+---
+
+⭐ If you found this project useful, consider giving it a star!
